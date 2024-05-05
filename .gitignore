@@ -1,0 +1,50 @@
+#####Cannon-Kitchen-System######
+
+###admin-interface###
+# dependencies
+cannon-kitchen-system/admin-interface/node_modules
+cannon-kitchen-system/admin-interface/.pnp
+cannon-kitchen-system/admin-interface/.pnp.js
+
+# testing
+cannon-kitchen-system/admin-interface//coverage
+
+# production
+cannon-kitchen-system/admin-interface//build
+
+# misc
+cannon-kitchen-system/admin-interface/.DS_Store
+cannon-kitchen-system/admin-interface/.env.local
+cannon-kitchen-system/admin-interface/.env.development.local
+cannon-kitchen-system/admin-interface/.env.test.local
+cannon-kitchen-system/admin-interface/.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+###server###
+cannon-kitchen-system/server/__pycache__/
+cannon-kitchen-system/server/venv/
+cannon-kitchen-system/server/*.pyc
+cannon-kitchen-system/server/instance/
+cannon-kitchen-system/server/myEnv/
+cannon-kitchen-system/server/.env
+cannon-kitchen-system/server/test.py
+cannon-kitchen-system/server/*.pyc
+cannon-kitchen-system/server/.DS_Store
+
+
+
+
+###CLOUD SERVER###
+cloud-server/server/__pycache__/
+cloud-server/server/venv/
+cloud-server/server/*.pyc
+cloud-server/server/instance/
+cloud-server/server/myEnv/
+cloud-server/server/.env
+cloud-server/server/test.py
+cloud-server/server/*.pyc
+cloud-server/server/.DS_Store
