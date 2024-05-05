@@ -19,6 +19,7 @@ cannon-kitchen-system/admin-interface/.env.development.local
 cannon-kitchen-system/admin-interface/.env.test.local
 cannon-kitchen-system/admin-interface/.env.production.local
 
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -39,12 +40,5 @@ cannon-kitchen-system/server/.DS_Store
 
 
 ###CLOUD SERVER###
-cloud-server/server/__pycache__/
-cloud-server/server/venv/
-cloud-server/server/*.pyc
-cloud-server/server/instance/
-cloud-server/server/myEnv/
-cloud-server/server/.env
-cloud-server/server/test.py
-cloud-server/server/*.pyc
-cloud-server/server/.DS_Store
+cloud-server/.env
+cloud-server/myEnv
