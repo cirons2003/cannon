@@ -1,8 +1,9 @@
 from flask import Flask 
 from dotenv import load_dotenv
 import os 
-from extensions import db, jwt, socketio, migrate
-from authentication import memberAuth_bp
+from .extensions import db, jwt, socketio, migrate, login_manager
+from .authentication import memberAuth_bp, adminAuth_bp
+from flask_cors import CORS
 
 configuration = 'development' ##production or development
 
@@ -10,6 +11,7 @@ def create_app():
 
     #Configure app 
     app = Flask(__name__)
+    CORS(app, supports_credentials = True)
 
     if configuration == 'development':
         load_dotenv()
@@ -31,10 +33,18 @@ def create_app():
     socketio.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
+    login_manager.init_app(app)
 
-    ##register route blueprints
+    ##Integrate authorization endpoints 
     app.register_blueprint(memberAuth_bp, url_prefix = '/memberAuth')
+    app.register_blueprint(adminAuth_bp, url_prefix = '/adminAuth')
+
+    ##import socket functionality 
+    from .socket import setup_socket_functionality, order_bp
+    setup_socket_functionality()
+    app.register_blueprint(order_bp, url_prefix = '/order')
+
 
     #return app object 
-    return app
+    return app, socketio
     

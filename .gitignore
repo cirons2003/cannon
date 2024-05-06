@@ -38,7 +38,30 @@ cannon-kitchen-system/server/.DS_Store
 
 
 
+#####testing######
+
+# dependencies
+testing/fake-mobile/node_modules
+testing/fake-mobile/.pnp
+testing/fake-mobile/.pnp.js
+
+# testing
+testing/fake-mobile/coverage
+
+# production
+testing/fake-mobile/build
+
+# misc
+testing/fake-mobile/.DS_Store
+testing/fake-mobile/.env.local
+testing/fake-mobile/.env.development.local
+testing/fake-mobile/.env.test.local
+testing/fake-mobile/.env.production.local
+
+
 
 ###CLOUD SERVER###
 cloud-server/.env
 cloud-server/myEnv
+__pycache__/
+.pyc
