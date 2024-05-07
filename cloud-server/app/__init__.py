@@ -46,5 +46,5 @@ def create_app():
 
 
     #return app object 
-    return app, socketio
+    return app
     

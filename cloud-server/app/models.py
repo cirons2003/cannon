@@ -36,5 +36,36 @@ class Admin(db.Model, UserMixin):
 class Order(db.Model):
     order_id = db.Column(db.Integer, primary_key=True)
     order_data = db.Column(db.JSON)
-    scheduled_time = db.Column(db.DateTime) 
+    scheduled_time = db.Column(db.DateTime, server_default = 'CURRENT_TIMESTAMP') 
+    
+
+menu_items = db.Table(
+    'menu_items', 
+    db.Column('menu_id', db.Integer, db.ForeignKey('menu.menu_id', ondelete = 'CASCADE'), primary_key = True),
+    db.Column('item_id', db.Integer, db.ForeignKey('item.item_id', ondelete = 'CASCADE'), primary_key = True)
+)
+
+class Item(db.Model):
+    item_id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(30), index = True, unique = True, nullable = False)
+    description = db.Column(db.String(200))
+    image_url = db.Column(db.String(255))
+    customization_options = db.Column(db.JSON)
+    menus = db.relationship('Menu', secondary=menu_items, back_populates='items')
+
+class Menu(db.Model):
+    menu_id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(30), unique = True, index = True, nullable = False) 
+    items = db.relationship('Item', secondary = menu_items, back_populates = 'menus')
+
+class Meal(db.Model):
+    meal_id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(30), nullable = False)
+    day_of_week = db.Column(db.Integer, nullable = False) #0 = sunday, 6 = saturday
+    start_time = db.Column(db.DateTime, nullable = False) #meal opens
+    end_time = db.Column(db.DateTime, nullable = False) #meal closes 
+    order_padding = db.Column(db.Integer, server_default = '0') #number of minutes before window orders are accepted (can be negative)
+    active_menu = db.Column(db.Integer, db.ForeignKey('menu.menu_id'))
+
+
     
