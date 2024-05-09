@@ -36,7 +36,7 @@ class Admin(db.Model, UserMixin):
 class Order(db.Model):
     order_id = db.Column(db.Integer, primary_key=True)
     order_data = db.Column(db.JSON)
-    scheduled_time = db.Column(db.DateTime, server_default = 'CURRENT_TIMESTAMP') 
+    scheduled_time = db.Column(db.DateTime, server_default = 'CURRENT_TIMESTAMP', nullable = False) 
     
 
 menu_items = db.Table(
@@ -50,7 +50,7 @@ class Item(db.Model):
     name = db.Column(db.String(30), index = True, unique = True, nullable = False)
     description = db.Column(db.String(200))
     image_url = db.Column(db.String(255))
-    customization_options = db.Column(db.JSON)
+    fields = db.Column(db.JSON)
     menus = db.relationship('Menu', secondary=menu_items, back_populates='items')
 
 class Menu(db.Model):

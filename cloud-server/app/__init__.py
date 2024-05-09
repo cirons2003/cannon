@@ -44,6 +44,9 @@ def create_app():
     setup_socket_functionality()
     app.register_blueprint(order_bp, url_prefix = '/order')
 
+    ##import menu endpoints 
+    from .menu import menu_bp
+    app.register_blueprint(menu_bp, url_prefix = '/menu')
 
     #return app object 
     return app

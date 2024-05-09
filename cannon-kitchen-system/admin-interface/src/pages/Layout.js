@@ -1,6 +1,9 @@
-import { Button, Text } from "@chakra-ui/react"
+import { Button, Flex, Text } from "@chakra-ui/react"
 import { useSelector } from "react-redux"
 import { useAuth } from "../custom hooks/useAuth"
+import {Outlet} from 'react-router-dom'
+import SideBar from "../components/SideBar/index"
+import TopBar from "../components/TopBar/index"
 
 
 export default function Layout() {
@@ -8,9 +11,23 @@ export default function Layout() {
     const {logout} = useAuth()
 
     return (
+        <>
+            <Flex width = '100vw' height = '100vh' direction = 'column'>
+                <TopBar/>
+                <Flex width = '100%' flex = {1} justify = 'start' overflow = 'hidden'>
+                    <SideBar/>
+                    <Flex flex = {1} overflowY = 'auto'>
+                        <Outlet/>
+                    </Flex>
+                </Flex>
+            </Flex>
+        </>
+    )
+
+    /*return (
         <>  
             <Text>{user?.username ? user.username : 'no user signed in'}</Text>
             <Button onClick = {logout}>logout</Button>
         </>
-    )
+    )*/
 }
