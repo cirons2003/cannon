@@ -95,7 +95,6 @@ def admin_register():
 
 ##Handles Admin Logout 
 @adminAuth_bp.route('/logout')
-@login_required
 def admin_logout():
     logout_user()
     return jsonify({'message':'logged out user'}), 200 

@@ -4,7 +4,7 @@
 
     export default function LibraryItems({listOfMenuItems, openPopup, openEditModal}) {
         return (
-            <SimpleGrid columns = {5} spacing = {4} overflow = 'auto' wrap = 'wrap' width = '100%' justify = 'space-around'>
+            <SimpleGrid columns={{ base: 1, sm: 1, md: 3, lg: 4, xl: 5 }} spacing = {6} overflow='auto'>
                 {(listOfMenuItems && Array.isArray(listOfMenuItems)) && listOfMenuItems.map((item,i)=>(
                     <MealCard openEditModal = {openEditModal} key = {i} num = {i} item = {item}/>
                 ))}

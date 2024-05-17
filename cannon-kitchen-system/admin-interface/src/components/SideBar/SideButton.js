@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 export default function SideButton({icon, text, to}) {
     const colors = useSelector(state => state.theme.colors)
+    
     return (
         <Button 
             width = '100%' 

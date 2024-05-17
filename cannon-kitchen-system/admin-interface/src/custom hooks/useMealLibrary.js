@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 
-export const useMealLibrary = () => {
+const useMealLibrary = () => {
     const baseURL = useSelector(state => state.proxy.serverURL)
 
     const [listOfMenuItems, setListOfMenuItems] = useState([])
@@ -57,5 +57,7 @@ export const useMealLibrary = () => {
         }
     }
 
-    return {filteredListOfMenuItems, getMealLibrary, addMenuItem, editMenuItem, removeMenuItem, filterItems}
+    return {filteredListOfMenuItems, listOfMenuItems, getMealLibrary, addMenuItem, editMenuItem, removeMenuItem, filterItems}
 }
+
+export default useMealLibrary

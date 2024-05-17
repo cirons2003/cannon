@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 
 
 const getUserState = () => {
-    const user = localStorage.getItem('user')
+    const user = sessionStorage.getItem('user')
     return user ? JSON.parse(user) : null
 }
 

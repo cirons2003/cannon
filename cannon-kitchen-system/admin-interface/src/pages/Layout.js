@@ -4,11 +4,14 @@ import { useAuth } from "../custom hooks/useAuth"
 import {Outlet} from 'react-router-dom'
 import SideBar from "../components/SideBar/index"
 import TopBar from "../components/TopBar/index"
+import { useEffect } from "react"
 
 
 export default function Layout() {
     const user = useSelector(state=>state.user)
+
     const {logout} = useAuth()
+
 
     return (
         <>

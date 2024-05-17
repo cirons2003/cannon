@@ -34,7 +34,7 @@ export default function MealCard({item, num, openEditModal}) {
     }
 
     return (
-        <Flex bg = {colors.secondary} color = {colors.primary} borderWidth = '1px' borderColor = {colors.primary} borderRadius = '20px' p = '10px' overflowY = 'hidden' width = '250px' height = '250px' direction = 'column'>
+        <Flex bg = {colors.secondary} color = {colors.primary} borderWidth = '1px' borderColor = {colors.primary} borderRadius = '20px' p = '10px' overflowY = 'hidden' minWidth = '180px' maxWidth = '250px' flex = {1} height = '250px' direction = 'column'>
             <Flex  width = '100%' justify = 'space-between' align = 'center' > 
                 <Text as = 'b' fontSize = '20px' >{item?.name ? item.name : `Menu Item ${num}`}</Text>
                 <IconButton onClick = {editMeal} _hover = {{backgroundColor: 'transparent', opacity: '70%'}} icon = {<FontAwesomeIcon icon = {faEdit}/>} bg = 'transparent' color = {colors.primary}/>

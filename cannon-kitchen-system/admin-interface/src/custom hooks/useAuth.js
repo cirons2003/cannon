@@ -12,8 +12,8 @@ export const useAuth = () => {
     const login = async(username, password) => {
         try {
             const response = await axios.post(serverURL+'/adminAuth/login', {username: username, password: password}, {withCredentials: true})
-            dispatch(setUser({username: username}))
-            localStorage.setItem('user', JSON.stringify({username: username}))
+            dispatch(setUser({username: response.data.username}))
+            sessionStorage.setItem('user', JSON.stringify({username: response.data.username}))
             console.log(response.data)
         }catch(err) {
             console.error(err)
@@ -24,7 +24,7 @@ export const useAuth = () => {
         try {
             const response = await axios.get(serverURL+'/adminAuth/logout', {withCredentials: true})
             dispatch(setUser(null))
-            localStorage.removeItem('user')
+            sessionStorage.removeItem('user')
             navigate('/login')
             console.log(response.data)
         }catch(err) {

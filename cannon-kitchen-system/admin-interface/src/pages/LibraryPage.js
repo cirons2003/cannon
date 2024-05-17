@@ -3,7 +3,7 @@ import LibraryItems from "../components/library page/LibraryItems"
 import LibraryTopBar from "../components/library page/LibraryTopBar"
 import ItemPopup from "../components/library page/ItemPopup"
 import { useEffect, useState } from "react"
-import { useMealLibrary } from "../custom hooks/useMealLibrary"
+import useMealLibrary from "../custom hooks/useMealLibrary"
 
 
 export default function LibraryPage() {
