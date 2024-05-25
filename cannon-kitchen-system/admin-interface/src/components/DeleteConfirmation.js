@@ -2,7 +2,7 @@ import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, Al
 import { useSelector } from "react-redux"
 
 
-export default function DeleteConfirmation({isOpen, onClose, header, body, onDelete}) {
+export default function DeleteConfirmation({isOpen, onClose, header, body, onDelete, logout }) {
 
     const colors = useSelector(state => state.theme.colors)
 
@@ -25,8 +25,8 @@ export default function DeleteConfirmation({isOpen, onClose, header, body, onDel
                 <Button bg = 'transparent' onClick={onClose}>
                 Cancel
                 </Button>
-                <Button bg = {colors.red} onClick={onDelete} ml={3}>
-                Delete
+                <Button bg = {colors.red} onClick={onDelete} ml={3} color = 'white'>
+                {logout ? 'Logout' : 'Delete'}
                 </Button>
             </AlertDialogFooter>
             </AlertDialogContent>

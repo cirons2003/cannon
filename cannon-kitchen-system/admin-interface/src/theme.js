@@ -5,7 +5,8 @@ export const theme = extendTheme({
     global: {
       // You can add styles here for the `body`, `a`, or any other element.
       '::placeholder': {
-        color: 'gray.400',
+        color: 'black',
+        opacity: '50%'
       },
       '::-webkit-scrollbar': {
         width: '8px',

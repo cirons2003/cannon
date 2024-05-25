@@ -12,7 +12,7 @@ export default function Routing() {
             <Router>
                 <Routes>
                     <Route path = '/' element = {<ProtectedRoute><Layout/></ProtectedRoute>}>
-                        <Route path = '/meals' element = {<MealsPage/>}/>
+                        <Route index  element = {<MealsPage/>}/>
                         <Route path = '/menus' element = {<MenuPage/>}/>
                         <Route path = '/library' element = {<LibraryPage/>}/>
                     </Route>

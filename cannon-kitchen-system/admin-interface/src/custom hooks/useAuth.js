@@ -12,9 +12,12 @@ export const useAuth = () => {
     const login = async(username, password) => {
         try {
             const response = await axios.post(serverURL+'/adminAuth/login', {username: username, password: password}, {withCredentials: true})
+            if (!response.data.username)
+                return
             dispatch(setUser({username: response.data.username}))
             sessionStorage.setItem('user', JSON.stringify({username: response.data.username}))
             console.log(response.data)
+            navigate('/')
         }catch(err) {
             console.error(err)
         }  

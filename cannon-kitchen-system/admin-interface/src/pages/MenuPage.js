@@ -66,7 +66,7 @@ export default function MenuPage() {
     useEffect(()=> {
         const clear = setTimeout(()=> filterItems(itemSearchTerm), 300)
         return () => clearTimeout(clear)
-    }, [itemSearchTerm])
+    }, [itemSearchTerm])    
 
     return (
         <Flex width = '100%' flex = {1} justify = 'start' direction = 'column'>
