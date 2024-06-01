@@ -11,31 +11,31 @@ import { faChevronDown, faChevronUp, faTrash } from "@fortawesome/free-solid-svg
 import moment from 'moment-timezone'
 import DeleteConfirmation from "../DeleteConfirmation";
 
-export default function NewMealPopup({ isOpen, onClose, listOfMenus, edit, day, mealId, startTime, endTime, activeMenuId, padding, 
+export default function NewMealPopup({ isOpen, onClose, listOfMenus, edit, day, mealId, startTime, endTime, activeMenuId, padding,
     setStartTime, setEndTime, setActiveMenuId, setPadding, name, setName, filteredListOfMenus, filterMenus, addMealToSchedule, editMealInSchedule, removeMealFromSchedule
 }) {
 
     const colors = useSelector(state => state.theme.colors)
-    const {getDayName} = useDateHandling()
+    const { getDayName } = useDateHandling()
 
     const [searchTerm, setSearchTerm] = useState('')
     const [activeMenuName, setActiveMenuName] = useState('')
     const [showMenus, setShowMenus] = useState(false)
     const [deleteOpen, setDeleteOpen] = useState(false)
 
-    useEffect(()=> {
+    useEffect(() => {
         const menu = listOfMenus?.find(m => m.menu_id === activeMenuId)
         setActiveMenuName(menu ? menu.name : 'None')
     }, [activeMenuId, listOfMenus])
 
     const isShowing = (menu) => {
-        return filteredListOfMenus.some((men)=> menu?.menu_id === men.menu_id)
+        return filteredListOfMenus.some((men) => menu?.menu_id === men.menu_id)
     }
 
-    
 
-    useEffect(()=> {
-        const clear = setTimeout(()=> {
+
+    useEffect(() => {
+        const clear = setTimeout(() => {
             filterMenus(searchTerm)
         }, 300)
         return () => clearTimeout(clear)
@@ -53,16 +53,16 @@ export default function NewMealPopup({ isOpen, onClose, listOfMenus, edit, day, 
         const timeEST = moment.tz([now.getFullYear(), now.getMonth(), now.getDate(), hour, minute], 'America/New_York')
         return timeEST.utc().format()
     }
-    
+
     const onAdd = () => {
-        if (validate()) 
+        if (validate())
             addMealToSchedule(day, name, timeToUTCIsostring(startTime), timeToUTCIsostring(endTime), padding, activeMenuId, onClose)
     }
 
-    const validate = () => {  
-        if (!startTime || ! endTime || !name) {
+    const validate = () => {
+        if (!startTime || !endTime || !name) {
             alert('name and times are required')
-            return false 
+            return false
         }
         if (padding && padding !== 0 && padding < 10 && padding > -10) {
             alert('padding must be larger than 10 or less than -10')
@@ -98,18 +98,25 @@ export default function NewMealPopup({ isOpen, onClose, listOfMenus, edit, day, 
         setActiveMenuName(menu?.name)
     }
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            onSave()
+        }
+    }
+
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="xl">
             <ModalOverlay />
-            <ModalContent bg = {colors.secondary} color= {colors.primary}>
+            <ModalContent bg={colors.secondary} color={colors.primary}>
                 <ModalHeader>
-                    <Flex direction = 'column'>
-                        <Text mb = '10px' as = 'b'>{getDayName(day)}</Text>
-                        <hr/>
-                        <Flex width = '100%' pr = '10px' justify = 'space-between'> 
-                            <Text as = 'b' mt = '10px'>{edit ? `Edit Meal?` : `New Meal`}</Text>
-                            <IconButton onClick = {()=>setDeleteOpen(true)} icon = {<FontAwesomeIcon icon = {faTrash}/>} bg = 'transparent' color = {colors.red} size = {9} _hover = {{backgroundColor: 'transparent', opacity: '70%'}}/>
+                    <Flex direction='column'>
+                        <Text mb='10px' as='b'>{getDayName(day)}</Text>
+                        <hr />
+                        <Flex width='100%' pr='10px' justify='space-between'>
+                            <Text as='b' mt='10px'>{edit ? `Edit Meal?` : `New Meal`}</Text>
+                            <IconButton onClick={() => setDeleteOpen(true)} icon={<FontAwesomeIcon icon={faTrash} />} bg='transparent' color={colors.red} size={9} _hover={{ backgroundColor: 'transparent', opacity: '70%' }} />
                         </Flex>
+                        <Text fontSize='12px' >(Meal times should be relative to current Eastern Time)</Text>
                     </Flex>
                 </ModalHeader>
                 <ModalCloseButton />
@@ -117,50 +124,50 @@ export default function NewMealPopup({ isOpen, onClose, listOfMenus, edit, day, 
                     <Stack spacing={3}>
                         <FormControl>
                             <FormLabel>Meal Name</FormLabel>
-                            <Input placeholder="Meal Name" value={name} onChange={e => setName(e.target.value)} />
+                            <Input onKeyDown = {handleKeyPress} placeholder="Meal Name" value={name} onChange={e => setName(e.target.value)} />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Start Time</FormLabel>
-                            <Input type="time" placeholder="Start Time" value={startTime} onChange={e => setStartTime(e.target.value)} />
+                            <Input onKeyDown = {handleKeyPress} type="time" placeholder="Start Time" value={startTime} onChange={e => setStartTime(e.target.value)} />
                         </FormControl>
                         <FormControl>
                             <FormLabel>End Time</FormLabel>
-                            <Input type="time" placeholder="End Time" value={endTime} onChange={e => setEndTime(e.target.value)} />
+                            <Input onKeyDown = {handleKeyPress} type="time" placeholder="End Time" value={endTime} onChange={e => setEndTime(e.target.value)} />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Padding</FormLabel>
-                            <Input placeholder="Padding (minutes)" value={padding} onChange={e => setPadding(e.target.value)} />
+                            <Input onKeyDown = {handleKeyPress} placeholder="Padding (minutes)" value={padding} onChange={e => setPadding(e.target.value)} />
                         </FormControl>
-                        <Flex width = '100%' align = 'center'  justify = {!showMenus ? 'start': 'space-around'} gap = '10px'>
-                            <Flex onClick = {()=>{setSearchTerm(''); setShowMenus(!showMenus)}} _hover = {{backgroundColor: 'transparent', opacity: '70%', cursor: 'pointer'}} gap = {2} align ='center'>
-                                <Text as= 'b' fontSize = '20px  '>Choose a Menu </Text>
+                        <Flex width='100%' align='center' justify={!showMenus ? 'start' : 'space-around'} gap='10px'>
+                            <Flex onClick={() => { setSearchTerm(''); setShowMenus(!showMenus) }} _hover={{ backgroundColor: 'transparent', opacity: '70%', cursor: 'pointer' }} gap={2} align='center'>
+                                <Text as='b' fontSize='20px  '>Choose a Menu </Text>
                                 {showMenus ?
-                                <IconButton icon = {<FontAwesomeIcon icon = {faChevronUp}/>} bg = 'transparent' size = {3} color = {colors.primary} _hover = {{backgroundColor: 'transparent', opacity: '70%'}}/>
-                                :
-                                <IconButton icon = {<FontAwesomeIcon icon = {faChevronDown}/>} bg = 'transparent' size = {3} color = {colors.primary} _hover = {{backgroundColor: 'transparent', opacity: '70%'}}/>
+                                    <IconButton icon={<FontAwesomeIcon icon={faChevronUp} />} bg='transparent' size={3} color={colors.primary} _hover={{ backgroundColor: 'transparent', opacity: '70%' }} />
+                                    :
+                                    <IconButton icon={<FontAwesomeIcon icon={faChevronDown} />} bg='transparent' size={3} color={colors.primary} _hover={{ backgroundColor: 'transparent', opacity: '70%' }} />
                                 }
                             </Flex>
-                            {showMenus && <SearchBar searchTerm = {searchTerm} setSearchTerm = {setSearchTerm} size = {5} />}
-                        </Flex> 
-                        
-                        {showMenus && <Flex px = '25px' direction = 'column' overflow='auto' gap = {1} >
+                            {showMenus && <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} size={5} />}
+                        </Flex>
+
+                        {showMenus && <Flex px='25px' direction='column' overflow='auto' gap={1} >
                             {listOfMenus?.map((menu, index) => (
-                                <Flex hidden = {!isShowing(menu)} _hover = {{backgroundColor: colors.primary, opacity: '70%', color: colors.secondary, cursor: 'pointer'}} color = {isActive(menu) ? colors.secondary : colors.primary} key = {index}
-                                borderRadius= {20} borderColor={colors.primary} borderWidth = {1} px = {2} bg = {isActive(menu) ? colors.primary : colors.secondary} justify = 'space-between'
-                                onClick = {()=> {setSearchTerm(''); newMenu(menu) }}>
-                                    <Text as = 'i' >{menu.name}</Text>
+                                <Flex hidden={!isShowing(menu)} _hover={{ backgroundColor: colors.primary, opacity: '70%', color: colors.secondary, cursor: 'pointer' }} color={isActive(menu) ? colors.secondary : colors.primary} key={index}
+                                    borderRadius={20} borderColor={colors.primary} borderWidth={1} px={2} bg={isActive(menu) ? colors.primary : colors.secondary} justify='space-between'
+                                    onClick={() => { setSearchTerm(''); newMenu(menu) }}>
+                                    <Text as='i' >{menu.name}</Text>
                                     <Text>{isActive(menu) ? 'Selected' : ''}</Text>
                                 </Flex>
                             ))}
                         </Flex>}
                     </Stack>
-                    <DeleteConfirmation header = 'Remove Meal from Schedule?' body = 'DANGER: This cannot be undone' onClose = {()=>setDeleteOpen(false)} isOpen = {deleteOpen} onDelete = {()=>{setDeleteOpen(false); removeMealFromSchedule(mealId, onClose)}}/>
+                    <DeleteConfirmation header='Remove Meal from Schedule?' body='DANGER: This cannot be undone' onClose={() => setDeleteOpen(false)} isOpen={deleteOpen} onDelete={() => { setDeleteOpen(false); removeMealFromSchedule(mealId, onClose) }} />
                 </ModalBody>
                 <ModalFooter>
-                    <Button _hover = {{opacity: '70%', backgroundColor: 'transparent'}} onClick={onClose} bg = 'transparent'>
+                    <Button _hover={{ opacity: '70%', backgroundColor: 'transparent' }} onClick={onClose} bg='transparent'>
                         Cancel
                     </Button>
-                    <Button _hover = {{opacity: '70%', backgroundColor: colors.primary}} onClick={onSave} ml={3} bg = {colors.primary} color = {colors.secondary}>
+                    <Button _hover={{ opacity: '70%', backgroundColor: colors.primary }} onClick={onSave} ml={3} bg={colors.primary} color={colors.secondary}>
                         Save
                     </Button>
                 </ModalFooter>
