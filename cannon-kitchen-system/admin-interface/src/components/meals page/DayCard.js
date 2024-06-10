@@ -10,7 +10,7 @@ export default function DayCard({ day, meals, openModal, openEditModal }) {
     const { getDayName } = useDateHandling()
 
     const startTime = '7:00'
-    const endTime = '20:30'
+    const endTime = '21:30'
 
     const numBlocks = (endTime.split(':')[0] - startTime.split(':')[0]) * 2 + (endTime.split(':')[1] / 30) - (startTime.split(':')[1] / 30)
 
@@ -18,7 +18,7 @@ export default function DayCard({ day, meals, openModal, openEditModal }) {
         const hoursPassed = parseInt(index / 2)
         const minutes = index % 2 === 0 ? '00' : '30'
         const currentHour = parseInt(startTime.split(':')[0]) + hoursPassed
-        const formattedHour = ((currentHour) % 12 === 0) ? 12 : currentHour % 12 
+        const formattedHour = ((currentHour) % 12 === 0) ? 12 : currentHour % 12
         const amPm = currentHour < 12 ? 'AM' : 'PM'
         return `${formattedHour}:${minutes} ${amPm}`
     }

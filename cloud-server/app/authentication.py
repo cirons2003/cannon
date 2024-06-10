@@ -1,8 +1,10 @@
 from .extensions import login_manager, db
 from .models import User, Admin
 from flask import Blueprint, jsonify, request, session
-from flask_jwt_extended import create_access_token, jwt_required
+from flask_jwt_extended import create_access_token, jwt_required 
 from flask_login import login_user, logout_user, login_required
+from flask_jwt_extended.exceptions import NoAuthorizationError
+from werkzeug.exceptions import Unauthorized, UnprocessableEntity
 
 
 memberAuth_bp = Blueprint('memberAuth', __name__)
@@ -25,9 +27,9 @@ def member_login():
         return jsonify({'message':'invalid credentials'}), 401
     
     access_token = create_access_token(identity = user.user_id)
-    return jsonify({'message': 'login successful', 'email': user.email, 'access_token': access_token}), 200
+    return jsonify({'message': 'login successful', 'first_name': user.first_name, 'last_name': user.last_name, 'access_token': access_token, 'description': user.description}), 200
 
-@memberAuth_bp.route('/register', methods = ['POST'])
+@memberAuth_bp.route('/register', methods = ['POST']    )
 def member_register():
     email = request.json.get('email')
     first_name = request.json.get('first_name')
@@ -57,12 +59,10 @@ def member_register():
     access_token = create_access_token(identity = new_user.user_id)
     return jsonify({'message': 'User registered successfully', 'email': new_user.email, 'access_token': access_token}), 200
 
-
-@memberAuth_bp.route('/secret')
+@memberAuth_bp.route('/confirmToken')
 @jwt_required()
-def secret():
-    return jsonify({'message':'secret message'})
-
+def confirmToken():
+    return jsonify({'message': 'You are logged in!', 'is_logged_in': True}), 200
 
 ##
 ###ADMIN
@@ -123,3 +123,18 @@ def admin_login():
 @login_manager.user_loader
 def load_user(admin_id):
     return Admin.query.get(admin_id)
+
+
+##Error Handling 
+error_bp = Blueprint('error', __name__)
+@error_bp.errorhandler(NoAuthorizationError)
+def handle_no_authorization_error(e):
+    return jsonify({"msg": "Missing or invalid token"}), 401
+
+@error_bp.errorhandler(Unauthorized)
+def handle_unauthorized(e):
+    return jsonify({"msg": "Unauthorized"}), 401
+
+@error_bp.app_errorhandler(UnprocessableEntity)
+def handle_unprocessable_entity(e):
+    return jsonify({"msg": "Missing or invalid token"}), 401

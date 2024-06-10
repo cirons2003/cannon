@@ -40,7 +40,7 @@ fakeOrderData = {'name': 'Carson', 'order': 'Turkey Shoot'}
 fakeOrderTime = datetime.now(timezone.utc).isoformat()
 
 ##accept utc times only 
-@order_bp.route('/placeOrder')
+@order_bp.route('/placeOrder', methods = ['POST'])
 def place_order():
     order_data = fakeOrderData#request.json.get('order_data')
     scheduled_time = fakeOrderTime#request.json.get('scheduled_time')

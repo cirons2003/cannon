@@ -8,7 +8,10 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(20), nullable = False)
     email = db.Column(db.String(50), unique = True, index = True, nullable = False)
     password_hash = db.Column(db.String(255), nullable = False)
-    profile_picture_url = db.Column(db.String(256))
+    description = db.Column(db.String(500))
+    placed_orders = db.Column(db.JSON)
+    last_k_meals = db.Column(db.JSON)
+    suspended = db.Column(db.Boolean, nullable = False, server_default = '0')  
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

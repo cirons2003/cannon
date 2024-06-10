@@ -9,7 +9,7 @@ export default function AdminLoginPage() {
   const {login, logout, register, username: currentName} = useAdminLogin()
 
   const handleClick = ()=> {
-    login(username, password)
+    register(username, password)
     setUsername('')
     setPassword('')
   }

@@ -24,6 +24,44 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+###Mobile###
+
+# dependencies
+mobile/node_modules/
+
+# Expo
+mobile/.expo/
+mobile/dist/
+mobile/web-build/
+
+# Native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+mobile/.metro-health-check*
+
+# debug
+mobile/npm-debug.*
+mobile/yarn-debug.*
+mobile/yarn-error.*
+
+# macOS
+mobile/.DS_Store
+*.pem
+
+# local env files
+mobile/.env*.local
+
+# typescript
+*.tsbuildinfo
+
+mobile/%ProgramData%
+
 
 ###server###
 cannon-kitchen-system/server/__pycache__/

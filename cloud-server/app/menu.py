@@ -1,8 +1,7 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from flask_login import login_required
 from .extensions import db 
 from .models import Item, Menu, Meal
-from flask import jsonify
 from datetime import datetime, timezone
 
 menu_bp = Blueprint('menu', __name__)
