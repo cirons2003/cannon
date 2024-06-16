@@ -15,7 +15,7 @@ export default function Routing() {
 
     return (
         <>
-            {accessToken ? <Layout /> : <LoginPage />}
+            {accessToken? <Layout /> : <LoginPage />}
         </>
     );
 };

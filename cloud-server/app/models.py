@@ -65,8 +65,8 @@ class Meal(db.Model):
     meal_id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(30), nullable = False)
     day_of_week = db.Column(db.Integer, nullable = False) #0 = sunday, 6 = saturday
-    start_time = db.Column(db.DateTime, nullable = False) #meal opens
-    end_time = db.Column(db.DateTime, nullable = False) #meal closes 
+    start_time = db.Column(db.String(10), nullable=False) #HH/MM in Princeton local time
+    end_time = db.Column(db.String(10), nullable=False) #HH/MM in Princeton local time
     order_padding = db.Column(db.Integer, nullable = False) #number of minutes before window orders are accepted (can be negative)
     active_menu_id = db.Column(db.Integer, db.ForeignKey('menu.menu_id'))
     active_menu = db.relationship('Menu', backref = 'meals', lazy = True)

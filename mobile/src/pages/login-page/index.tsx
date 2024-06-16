@@ -18,12 +18,12 @@ export default function LoginPage() {
             login({ email: email, password: password, onSuccess: () => alert('Nice!') });
             resetFields();
         }
-    };
+    };  
 
     const resetFields = () => {
         setEmail('');
         setPassword('');
-    };
+    }; 
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.primary }}>

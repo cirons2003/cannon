@@ -26,7 +26,7 @@ def member_login():
     if not allowed:
         return jsonify({'message':'invalid credentials'}), 401
     
-    access_token = create_access_token(identity = user.user_id)
+    access_token = create_access_token(identity = user.user_id, expires_delta=False)
     return jsonify({'message': 'login successful', 'first_name': user.first_name, 'last_name': user.last_name, 'access_token': access_token, 'description': user.description}), 200
 
 @memberAuth_bp.route('/register', methods = ['POST']    )

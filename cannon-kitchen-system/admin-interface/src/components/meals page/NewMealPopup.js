@@ -1,14 +1,13 @@
 
 
 
-import { Button, Checkbox, Flex, FormControl, FormLabel, Icon, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Stack, Text } from "@chakra-ui/react";
+import { Button, Flex, FormControl, VStack, FormLabel, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import useDateHandling from "../../custom hooks/useDateHandling";
 import { useSelector } from "react-redux";
 import SearchBar from "../SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp, faTrash } from "@fortawesome/free-solid-svg-icons";
-import moment from 'moment-timezone'
 import DeleteConfirmation from "../DeleteConfirmation";
 
 export default function NewMealPopup({ isOpen, onClose, listOfMenus, edit, day, mealId, startTime, endTime, activeMenuId, padding,
@@ -19,44 +18,38 @@ export default function NewMealPopup({ isOpen, onClose, listOfMenus, edit, day, 
     const { getDayName } = useDateHandling()
 
     const [searchTerm, setSearchTerm] = useState('')
-    const [activeMenuName, setActiveMenuName] = useState('')
     const [showMenus, setShowMenus] = useState(false)
     const [deleteOpen, setDeleteOpen] = useState(false)
-
-    useEffect(() => {
-        const menu = listOfMenus?.find(m => m.menu_id === activeMenuId)
-        setActiveMenuName(menu ? menu.name : 'None')
-    }, [activeMenuId, listOfMenus])
 
     const isShowing = (menu) => {
         return filteredListOfMenus.some((men) => menu?.menu_id === men.menu_id)
     }
-
-
 
     useEffect(() => {
         const clear = setTimeout(() => {
             filterMenus(searchTerm)
         }, 300)
         return () => clearTimeout(clear)
-    }, [searchTerm])
+    }, [searchTerm, filterMenus])
 
+
+    const onSave = () => {
+        if (edit) {
+            onEdit()
+        }
+        else {
+            onAdd()
+        }
+    };
 
     const onEdit = () => {
         if (validate())
-            editMealInSchedule(mealId, day, name, timeToUTCIsostring(startTime), timeToUTCIsostring(endTime), padding, activeMenuId, onClose)
-    }
-
-    const timeToUTCIsostring = (time) => {
-        const now = new Date()
-        const [hour, minute] = time.split(':').map(Number)
-        const timeEST = moment.tz([now.getFullYear(), now.getMonth(), now.getDate(), hour, minute], 'America/New_York')
-        return timeEST.utc().format()
+            editMealInSchedule(mealId, day, name, startTime, endTime, padding, activeMenuId, onClose)
     }
 
     const onAdd = () => {
         if (validate())
-            addMealToSchedule(day, name, timeToUTCIsostring(startTime), timeToUTCIsostring(endTime), padding, activeMenuId, onClose)
+            addMealToSchedule(day, name, startTime, endTime, padding, activeMenuId, onClose)
     }
 
     const validate = () => {
@@ -79,23 +72,12 @@ export default function NewMealPopup({ isOpen, onClose, listOfMenus, edit, day, 
         return true
     }
 
-
-    const onSave = () => {
-        if (edit) {
-            onEdit()
-        }
-        else {
-            onAdd()
-        }
-    };
-
     const isActive = (menu) => {
         return menu?.menu_id === activeMenuId
     }
 
     const newMenu = (menu) => {
         setActiveMenuId(menu?.menu_id)
-        setActiveMenuName(menu?.name)
     }
 
     const handleKeyPress = (e) => {
@@ -116,27 +98,27 @@ export default function NewMealPopup({ isOpen, onClose, listOfMenus, edit, day, 
                             <Text as='b' mt='10px'>{edit ? `Edit Meal?` : `New Meal`}</Text>
                             <IconButton onClick={() => setDeleteOpen(true)} icon={<FontAwesomeIcon icon={faTrash} />} bg='transparent' color={colors.red} size={9} _hover={{ backgroundColor: 'transparent', opacity: '70%' }} />
                         </Flex>
-                        <Text fontSize='12px' >(Meal times should be relative to current Eastern Time)</Text>
+                        <Text fontSize='12px' >(Meal times should be relative to local Princeton time)</Text>
                     </Flex>
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    <Stack spacing={3}>
+                    <VStack spacing={3}>
                         <FormControl>
                             <FormLabel>Meal Name</FormLabel>
-                            <Input onKeyDown = {handleKeyPress} placeholder="Meal Name" value={name} onChange={e => setName(e.target.value)} />
+                            <Input onKeyDown={handleKeyPress} placeholder="Meal Name" value={name} onChange={e => setName(e.target.value)} />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Start Time</FormLabel>
-                            <Input onKeyDown = {handleKeyPress} type="time" placeholder="Start Time" value={startTime} onChange={e => setStartTime(e.target.value)} />
+                            <Input onKeyDown={handleKeyPress} type="time" placeholder="Start Time" value={startTime} onChange={e => setStartTime(e.target.value)} />
                         </FormControl>
                         <FormControl>
                             <FormLabel>End Time</FormLabel>
-                            <Input onKeyDown = {handleKeyPress} type="time" placeholder="End Time" value={endTime} onChange={e => setEndTime(e.target.value)} />
+                            <Input onKeyDown={handleKeyPress} type="time" placeholder="End Time" value={endTime} onChange={e => setEndTime(e.target.value)} />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Padding</FormLabel>
-                            <Input onKeyDown = {handleKeyPress} placeholder="Padding (minutes)" value={padding} onChange={e => setPadding(e.target.value)} />
+                            <Input onKeyDown={handleKeyPress} placeholder="Padding (minutes)" value={padding} onChange={e => setPadding(e.target.value)} />
                         </FormControl>
                         <Flex width='100%' align='center' justify={!showMenus ? 'start' : 'space-around'} gap='10px'>
                             <Flex onClick={() => { setSearchTerm(''); setShowMenus(!showMenus) }} _hover={{ backgroundColor: 'transparent', opacity: '70%', cursor: 'pointer' }} gap={2} align='center'>
@@ -150,7 +132,7 @@ export default function NewMealPopup({ isOpen, onClose, listOfMenus, edit, day, 
                             {showMenus && <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} size={5} />}
                         </Flex>
 
-                        {showMenus && <Flex px='25px' direction='column' overflow='auto' gap={1} >
+                        {showMenus && <Flex px='25px' direction='column' alignItems='stretch' overflow='auto' gap={1} w='full' >
                             {listOfMenus?.map((menu, index) => (
                                 <Flex hidden={!isShowing(menu)} _hover={{ backgroundColor: colors.primary, opacity: '70%', color: colors.secondary, cursor: 'pointer' }} color={isActive(menu) ? colors.secondary : colors.primary} key={index}
                                     borderRadius={20} borderColor={colors.primary} borderWidth={1} px={2} bg={isActive(menu) ? colors.primary : colors.secondary} justify='space-between'
@@ -160,7 +142,7 @@ export default function NewMealPopup({ isOpen, onClose, listOfMenus, edit, day, 
                                 </Flex>
                             ))}
                         </Flex>}
-                    </Stack>
+                    </VStack>
                     <DeleteConfirmation header='Remove Meal from Schedule?' body='DANGER: This cannot be undone' onClose={() => setDeleteOpen(false)} isOpen={deleteOpen} onDelete={() => { setDeleteOpen(false); removeMealFromSchedule(mealId, onClose) }} />
                 </ModalBody>
                 <ModalFooter>

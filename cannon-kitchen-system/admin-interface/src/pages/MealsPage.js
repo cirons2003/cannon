@@ -9,8 +9,8 @@ import useMealSchedule from "../custom hooks/useMealSchedule";
 
 
 export default function MealsPage() {
-    const {getMenus, listOfMenus, filteredListOfMenus, filterMenus} = useMenus()
-    const {getMealSchedule, mealSchedule, addMealToSchedule, editMealInSchedule, removeMealFromSchedule} = useMealSchedule()
+    const { getMenus, listOfMenus, filteredListOfMenus, filterMenus } = useMenus()
+    const { getMealSchedule, mealSchedule, addMealToSchedule, editMealInSchedule, removeMealFromSchedule } = useMealSchedule()
     const [modalOpen, setModalOpen] = useState(false)
     const [edit, setEdit] = useState(false)
     const [mealId, setMealId] = useState(-1)
@@ -22,8 +22,8 @@ export default function MealsPage() {
     const [day, setDay] = useState(0)
 
 
-    useEffect(()=>{
-        const clear = setTimeout(()=>{getMenus(); getMealSchedule()}, 300) 
+    useEffect(() => {
+        const clear = setTimeout(() => { getMenus(); getMealSchedule() }, 300)
         return () => clearTimeout(clear)
     }, [])
 
@@ -42,12 +42,12 @@ export default function MealsPage() {
         setDay(day)
         setModalOpen(true)
     }
-    
+
     const openEditModal = (id, start, end, menuId, nm, pd, day) => {
         setEdit(true)
         setMealId(id)
-        setStartTime(new Date(start).toLocaleTimeString('en-US', {timeZone: 'America/New_York',hour: '2-digit',minute: '2-digit',hour12: false}))
-        setEndTime(new Date(end).toLocaleTimeString('en-US', {timeZone: 'America/New_York',hour: '2-digit',minute: '2-digit',hour12: false}))
+        setStartTime(start)
+        setEndTime(end)
         setActiveMenuId(menuId)
         setMealName(nm)
         setPadding(pd)
@@ -56,14 +56,14 @@ export default function MealsPage() {
     }
 
     return (
-        <Flex direction = 'column' align ='center' flex = {1}>
-            <MealsPageTopBar/>
-            <Days mealSchedule={mealSchedule} openModal = {openModal} openEditModal = {openEditModal} />
-            <NewMealPopup listOfMenus = {listOfMenus} isOpen = {modalOpen} onClose = {closeModal} edit = {edit} mealId = {mealId} 
-                startTime = {startTime} setStartTime = {setStartTime} endTime = {endTime} setEndTime = {setEndTime} 
-                activeMenuId = {activeMenuId} setActiveMenuId = {setActiveMenuId} padding = {padding} setPadding = {setPadding}
-                name = {mealName} setName = {setMealName} filteredListOfMenus = {filteredListOfMenus} day = {day} filterMenus = {filterMenus}
-                addMealToSchedule = {addMealToSchedule} editMealInSchedule = {editMealInSchedule} removeMealFromSchedule = {removeMealFromSchedule}
+        <Flex direction='column' align='center' flex={1}>
+            <MealsPageTopBar />
+            <Days mealSchedule={mealSchedule} openModal={openModal} openEditModal={openEditModal} />
+            <NewMealPopup listOfMenus={listOfMenus} isOpen={modalOpen} onClose={closeModal} edit={edit} mealId={mealId}
+                startTime={startTime} setStartTime={setStartTime} endTime={endTime} setEndTime={setEndTime}
+                activeMenuId={activeMenuId} setActiveMenuId={setActiveMenuId} padding={padding} setPadding={setPadding}
+                name={mealName} setName={setMealName} filteredListOfMenus={filteredListOfMenus} day={day} filterMenus={filterMenus}
+                addMealToSchedule={addMealToSchedule} editMealInSchedule={editMealInSchedule} removeMealFromSchedule={removeMealFromSchedule}
             />
         </Flex>
     )

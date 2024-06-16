@@ -17,7 +17,7 @@ export const useAuth = () => {
     const [emailError, setEmailError] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string>('');
     const [loading, setLoading] = useState(false);
-    const {handleErrors, errorCode, errorMessage, clearErrors} = useError();
+    const { handleErrors, errorCode, errorMessage, clearErrors } = useError();
 
     const login = async (props: loginProps) => {
         const { email, password, onSuccess } = props;

@@ -9,10 +9,12 @@ const useError = () => {
     const dispatch = useAppDispatch();
 
     const handleErrors = (err: any) => {
-        if (err.resonse) {
-            setErrorCode(err.status);
-            if (err.response?.data.message) {
-                setErrorMessage(err.response.data.message);
+        if (err.response) {
+            setErrorCode(err.response.status);
+            console.log(err.response.data)
+            if (err.response.data.msg) {
+                setErrorMessage(err.response.data.msg);
+                console.log(err.response.data.msg)
             }
             if (err.response.status === 401) {
                 setErrorMessage('Stale token... returning to login page');

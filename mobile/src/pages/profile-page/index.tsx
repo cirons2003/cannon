@@ -39,7 +39,7 @@ export default function ProfilePage() {
                         <Input
                             value={description}
                             onChangeText={setNewDescription}
-                            placeholder='stuff'
+                            placeholder='This will be added to each of your orders...'
                             borderColor='secondary'
                             textAlign='start'
                             flexWrap='wrap'

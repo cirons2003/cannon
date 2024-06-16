@@ -366,21 +366,17 @@ def addMealToSchedule():
     if not (isinstance(day_of_the_week, int) and isinstance(name, str) and isinstance(order_padding, int) and (active_menu_id is None or isinstance(active_menu_id, int))):
         return jsonify({'message': 'invalid types for int and string inputs '}), 400
     
-    start_time = start_time.replace('Z', '+00:00')
-    start_datetime = datetime.fromisoformat(start_time) 
-    if start_datetime.tzinfo != timezone.utc:
-        return jsonify({'message': 'start time should be a utc iso string'}), 400
+    if not (isinstance(start_time, str) and len(start_time) == 5):
+        return jsonify({'message': 'start_time must be a string in HH/MM format'}), 400 
     
-    end_time = end_time.replace('Z', '+00:00')
-    end_datetime = datetime.fromisoformat(end_time)
-    if end_datetime.tzinfo != timezone.utc:
-        return jsonify({'message': 'end time should be a utc iso string'}), 400
-    
+    if not (isinstance(end_time, str) and len(end_time) == 5):
+        return jsonify({'message': 'end_time must be a string in HH/MM format'}), 400 
+
     if active_menu_id == -1: 
         active_menu_id = None
 
     try:
-        newMeal = Meal(name = name, day_of_week = day_of_the_week, start_time = start_datetime, end_time = end_datetime, order_padding = order_padding, active_menu_id = active_menu_id)
+        newMeal = Meal(name = name, day_of_week = day_of_the_week, start_time = start_time, end_time = end_time, order_padding = order_padding, active_menu_id = active_menu_id)
         db.session.add(newMeal) 
         db.session.commit()
     except Exception as e:
@@ -417,16 +413,12 @@ def editMealInSchedule():
     if not (active_menu_id is None or isinstance(active_menu_id, int)):
         return jsonify({'message': 'menu_id if included must be an int'}), 400
     
-    start_time = start_time.replace('Z', '+00:00')
-    start_datetime = datetime.fromisoformat(start_time) 
-    if start_datetime.tzinfo != timezone.utc:
-        return jsonify({'message': 'start time should be a utc iso string'}), 400
+    if not (isinstance(start_time, str) and len(start_time) == 5):
+        return jsonify({'message': 'start_time must be a string in HH/MM format'}), 400 
     
-    end_time = end_time.replace('Z', '+00:00')
-    end_datetime = datetime.fromisoformat(end_time)
-    if end_datetime.tzinfo != timezone.utc:
-        return jsonify({'message': 'end time should be a utc iso string'}), 400
-    
+    if not (isinstance(end_time, str) and len(end_time) == 5):
+        return jsonify({'message': 'end_time must be a string in HH/MM format'}), 400 
+
     if active_menu_id == -1: 
         active_menu_id = None
 
@@ -439,8 +431,8 @@ def editMealInSchedule():
 
     try:
         meal.name = name
-        meal.start_time = start_datetime
-        meal.end_time = end_datetime
+        meal.start_time = start_time
+        meal.end_time = end_time
         meal.order_padding = order_padding
         meal.active_menu_id = active_menu_id
         meal.day_of_week = day_of_the_week

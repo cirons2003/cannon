@@ -5,7 +5,7 @@ type StaticState = {
 };
 
 const initialState: StaticState = {
-    baseURL: 'https://spotty-streets-flash.loca.lt',
+    baseURL: 'https://giant-flies-brush.loca.lt',
 };
 
 const staticSlice = createSlice({
