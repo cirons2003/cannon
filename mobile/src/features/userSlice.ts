@@ -9,7 +9,7 @@ type UserState = {
 
 const initialState: UserState = {};
 
-export const userSlice = createSlice({
+const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {

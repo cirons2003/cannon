@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { logout } from "../features/userSlice";
 import { useAppDispatch } from "./hooks";
+import { setConnected } from "../features/validationSlice";
 
 
 const useError = () => {
@@ -20,6 +21,10 @@ const useError = () => {
                 setErrorMessage('Stale token... returning to login page');
                 dispatch(logout());
             }
+            if (err.response.status === 404) {
+                dispatch(setConnected(false));
+            }
+
         }
         else {
             setErrorMessage('An unexpected Error has occured');

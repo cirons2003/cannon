@@ -54,15 +54,26 @@ def getMenuItems():
         current_meal = m
         break
 
+    #FLAGS: -1 means no active meal, 0 means no active menu but yes active meal, 1 means active meal and active menu
     if current_meal is None: 
-        return jsonify({'message': 'no meal is active', 'display_message': 'Sorry, no meals are active right now'}), 200 
+        return jsonify({'message': 'no meal is active', 'display_message': 'Sorry, no meals are active right now', 'flag': -1}), 200 
     
+    sh, sm = current_meal.start_time.split(':')
+    eh, em = current_meal.end_time.split(':')
+    sh = int(sh)
+    eh = int(eh)
+    sAmPm = 'AM' if sh % 12 == 0 else 'PM'
+    eAmPm = 'AM' if eh % 12 == 0 else 'PM'
+    sh = int(sh % 12) if sh % 12 != 0 else 12
+    eh = int(eh % 12) if eh % 12 != 0 else 12
+    duration_string = f"{sh}:{sm}{sAmPm} - {eh}:{em}{eAmPm}"
+
     if current_meal.active_menu_id == -1 or current_meal.active_menu_id == None:
-        return jsonify({'message': 'no menu is active for this meal', 'display_message': f'Sorry, {current_meal.name} does not have an active menu'}), 200 
+        return jsonify({'message': 'no menu is active for this meal', 'active_meal_name': current_meal.name, 'display_message': f'Sorry, {current_meal.name} does not have an active menu', 'duration_string': duration_string, 'flag': 0}), 200 
     
     menu = Menu.query.get(current_meal.active_menu_id)
     if menu is None: 
-        return jsonify({'message': 'invalid active menu id', 'display_message': f'Sorry, {current_meal.name} does not have an active menu'}), 200 
+        return jsonify({'message': 'invalid active menu id', 'active_meal_name': current_meal.name, 'display_message': f'Sorry, {current_meal.name} does not have an active menu', 'duration_string': duration_string, 'flag': 0}), 200 
 
     menu_items = [{
         'item_id': item.item_id,
@@ -72,5 +83,5 @@ def getMenuItems():
         'fields': item.fields,
     } for item in menu.items]
 
-    return jsonify({'message': 'successfully fetched meals', 'menu_items': menu_items}), 200 
+    return jsonify({'message': 'successfully fetched meals', 'menu_items': menu_items, 'active_meal_name': current_meal.name, 'duration_string': duration_string, 'flag': 1}), 200 
 

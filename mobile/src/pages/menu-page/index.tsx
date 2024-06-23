@@ -5,25 +5,53 @@ import { useEffect, useState } from "react";
 import { MenuItemsScroll } from "./menu-items-scroll";
 import { useMenu } from "../../custom hooks/useMenu";
 import { useDebounce } from "../../custom hooks/useDebounce";
+import { Item, MenuPopup } from "./menu-popup";
+import { usePlaceOrder } from "../../custom hooks/usePlaceOrder";
+import { Loading } from "../../components/loading";
+import { AlertPopup } from "../../components/alert-popup";
 
 
 export default function MenuPage() {
-    const { logout } = useAuth();
-    const [searchTerm, setSearchTerm] = useState<string>('');
-    const { getMenuItems } = useMenu();
+    const { getMenuItems, filteredListOfMenuItems, filterMenuItems, activeMealName, loading, durationString } = useMenu();
     const { debounce } = useDebounce();
+    const { debounce: searchDebounce} = useDebounce();
+    const { placeOrder, isLoading: orderBeingPlaced, orderConfirmed, orderFailed } = usePlaceOrder();
+
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [modalOpen, setModalOpen] = useState(false);
+    const [activeItem, setActiveItem] = useState<Item | undefined>(undefined);
 
     useEffect(() => {
-        const clear = debounce(getMenuItems, 300);
+        const clear = debounce(getMenuItems, 100);
 
         return clear;
     }, []);
 
+    useEffect(() => {
+        const searchClear = searchDebounce(() => filterMenuItems(searchTerm), 300);
+
+        return searchClear;
+    }, [searchTerm]);
+    
+    const openOrderModal = (item: Item) => {
+        setActiveItem(item);
+        setModalOpen(true);
+    };
+
+    const onClose = () => {
+        setModalOpen(false);
+        setActiveItem(undefined);
+    }
+
     return (
         <Flex mt='lg' bg='background' flex={1}>
-            <Flex flex={1} alignItems="stretch">
-                <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} mb='md' mx='md' color='primary' />
-                <MenuItemsScroll />
+            <Flex flex={1} alignItems="stretch" position='relative'>
+                <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} mx='md' color='primary'/>
+                <MenuItemsScroll openOrderModal={openOrderModal} refresh={getMenuItems} listOfMenuItems={filteredListOfMenuItems} activeMealName={activeMealName} loading={loading} durationString={durationString}/>
+                <MenuPopup isOpen={modalOpen} onClose={onClose} item={activeItem}/>
+                {orderBeingPlaced && <Loading loadingMessage="Placing your order" absolute={true}/>}
+                {orderConfirmed && <AlertPopup bg='white' color='secondary' alertText='Order placed!'/>}
+                {orderFailed && <AlertPopup fontSize='sm' bg='white' color='error' alertText='Order Couldnt be Placed' iconVariant="error"/>}
             </Flex>
         </Flex>
     );

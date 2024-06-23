@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "./hooks";
 import { setUser } from '../features/userSlice';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useError from "./useError";
+import { setConfirmingToken, setConnected } from "../features/validationSlice";
 
 export type loginProps = {
     email: string,
@@ -59,13 +60,15 @@ export const useAuth = () => {
                 logout();
             }
             else {
+                setConnected(true);
+                dispatch(setConfirmingToken(false));
                 console.log('token confirmed');
             }
         }
         catch (err: any) {
             handleErrors(err);
         }
-    }
+    };
 
     return { login, emailError, passwordError, loading, logout, confirmToken };
 };
