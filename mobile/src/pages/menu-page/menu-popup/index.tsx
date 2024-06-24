@@ -1,12 +1,13 @@
 import { Button, Flex, FormControl, Icon, IconButton, Modal, ScrollView, Select, Text } from "native-base";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from "react";
-import { OrderProps } from "../../../custom hooks/usePlaceOrder";
+import { OrderProps, usePlaceOrder } from "../../../custom hooks/usePlaceOrder";
 
 type MenuPopupProps = {
     isOpen: boolean;
     onClose: () => void;
     item: Item | undefined;
+    placeOrder: (props: OrderProps) => void;
 };
 
 export type Item = {
@@ -18,12 +19,15 @@ export type Item = {
 export type Field = {
     field_name: string;
     options?: string[];
-    placeOrder: (props: OrderProps) => void;
+};
+
+export type Map = {
+    [key: string]: string;
 };
 
 export const MenuPopup = (props: MenuPopupProps) => {
-    const { isOpen, onClose, item } = props;
-    const [selections, setSelections] = useState<{[key: string]: string}>({});
+    const { isOpen, onClose, item, placeOrder } = props;
+    const [selections, setSelections] = useState<Map>({});
 
     const onSelectionChange = (fieldName: string, selectedOption: string) => {
         setSelections(sls => {
@@ -33,8 +37,24 @@ export const MenuPopup = (props: MenuPopupProps) => {
         });
     };
 
-    const placeOrder = () => {
-        
+    const handlePlaceOrder = () => {
+        if (item) { 
+            const orderProps: OrderProps = {
+                item_name: item.name, 
+                selections: packageSelections(selections)
+            };
+
+            placeOrder(orderProps);
+            handleClose();
+        }
+    };
+
+    const packageSelections = (selections: Map): string[] => {
+        const sMap = Object.keys(selections).reduce((acc: string[], thisKey: string) => {
+            acc.push(selections[thisKey]);
+            return acc;
+        }, [])
+        return sMap;
     }
 
     const canOrder = (): boolean => {
@@ -98,7 +118,7 @@ export const MenuPopup = (props: MenuPopupProps) => {
                                 Cancel
                             </Text>
                         </Button>
-                        <Button ml='sm' variant='primary' bg='secondary' _pressed={{ background: 'secondary', opacity: 60 }} disabled={!canOrder()} opacity={canOrder() ? 100 : 40}>
+                        <Button onPress={handlePlaceOrder} ml='sm' variant='primary' bg='secondary' _pressed={{ background: 'secondary', opacity: 60 }} disabled={!canOrder()} opacity={canOrder() ? 100 : 40}>
                             <Text fontFamily='primary' fontSize='sm' color='white' bold>
                                 Order
                             </Text>

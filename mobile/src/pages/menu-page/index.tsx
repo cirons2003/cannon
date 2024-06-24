@@ -48,7 +48,7 @@ export default function MenuPage() {
             <Flex flex={1} alignItems="stretch" position='relative'>
                 <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} mx='md' color='primary'/>
                 <MenuItemsScroll openOrderModal={openOrderModal} refresh={getMenuItems} listOfMenuItems={filteredListOfMenuItems} activeMealName={activeMealName} loading={loading} durationString={durationString}/>
-                <MenuPopup isOpen={modalOpen} onClose={onClose} item={activeItem}/>
+                <MenuPopup placeOrder={placeOrder} isOpen={modalOpen} onClose={onClose} item={activeItem}/>
                 {orderBeingPlaced && <Loading loadingMessage="Placing your order" absolute={true}/>}
                 {orderConfirmed && <AlertPopup bg='white' color='secondary' alertText='Order placed!'/>}
                 {orderFailed && <AlertPopup fontSize='sm' bg='white' color='error' alertText='Order Couldnt be Placed' iconVariant="error"/>}

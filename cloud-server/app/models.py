@@ -38,8 +38,10 @@ class Admin(db.Model, UserMixin):
 
 class Order(db.Model):
     order_id = db.Column(db.Integer, primary_key=True)
-    order_data = db.Column(db.JSON)
-    scheduled_time = db.Column(db.DateTime, server_default = 'CURRENT_TIMESTAMP', nullable = False) 
+    user_name = db.Column(db.String(50), nullable = False)
+    item_name = db.Column(db.String(50), nullable = False)
+    selections = db.Column(db.JSON, nullable=False)
+    scheduled_time = db.Column(db.String(128), nullable = False) 
     
 
 menu_items = db.Table(

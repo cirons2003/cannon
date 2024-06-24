@@ -7,11 +7,12 @@ import { useFlash } from "./useFlash";
 
 export type OrderProps = {
     item_name: string;
-    fields?: Field[];
+    selections: string[];
 };
 
+
 export const usePlaceOrder = () => {
-    const baseURL = useAppSelector(state => state.static.baseURL) + '/user';
+    const baseURL = useAppSelector(state => state.static.baseURL) + '/order';
     const { handleErrors } = useError();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -29,10 +30,10 @@ export const usePlaceOrder = () => {
     }, [cleanUpConfirm, cleanUpError])
 
     const placeOrder = async (props: OrderProps) => {
-        const { item_name, fields } = props;
+        const { item_name, selections } = props;
         setIsLoading(true);
         try {
-            const response = await axios.post(baseURL + '/placeOrder', { item_name: item_name, fields: fields });
+            const response = await axios.post(baseURL + '/placeOrder', { item_name: item_name, selections: selections });
             flashConfirm(3000);
         } catch (err) {
             flashError(3000)

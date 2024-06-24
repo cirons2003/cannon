@@ -18,7 +18,8 @@ def changeDescription():
     description = request.json.get('description')
     if description is None: 
         return jsonify({'message': 'description is a required field'}), 403
-    user = get_jwt_identity()
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
     if user is None: 
         return jsonify({'message': 'could not decode access token'}), 401
     try: 
@@ -26,7 +27,7 @@ def changeDescription():
         db.session.commit()
     except Exception as e:
         db.session.rollback()
-        return jsonify({'message': 'failed to update database'}), 500 
+        return jsonify({'message': 'failed to update database', 'error_message':str(e)}), 500 
     return jsonify({'message': 'successfully updated description', 'new_description': description}), 200
     
 @user_bp.route('/getMenuItems')

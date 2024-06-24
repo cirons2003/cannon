@@ -15,7 +15,7 @@ export default function LoginPage() {
 
     const handleClick = () => {
         if (email !== '' && password !== '') {
-            login({ email: email, password: password, onSuccess: () => alert('Nice!') });
+            login({ email: email, password: password, onSuccess: undefined });
             resetFields();
         }
     };  
