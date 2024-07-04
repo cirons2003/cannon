@@ -8,7 +8,7 @@ type NavigationState = {
 };
 
 const initialState = {
-    pageNum: 1,
+    pageNum: 0,
 };
 
 const navigationSlice = createSlice({

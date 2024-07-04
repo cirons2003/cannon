@@ -23,10 +23,9 @@ export default function HorizontalNavigator() {
     };
 
     return (
-        <PagerView initialPage = {1} ref = {pagerRef} style={{ flex: 1 }} onPageSelected={onPageSelected}>
-            <OrdersPage key='1' />
-            <MenuPage key='2' />
-            <ProfilePage key='3' />
+        <PagerView initialPage = {0} ref = {pagerRef} style={{ flex: 1 }} onPageSelected={onPageSelected}>
+            <MenuPage key='1' />
+            <ProfilePage key='2' />
         </PagerView>
     );
 };

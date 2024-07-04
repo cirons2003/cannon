@@ -5,7 +5,7 @@ type StaticState = {
 };
 
 const initialState: StaticState = {
-    baseURL: 'https://rich-flies-talk.loca.lt',
+    baseURL: 'https://better-towns-drop.loca.lt',
 };
 
 const staticSlice = createSlice({
