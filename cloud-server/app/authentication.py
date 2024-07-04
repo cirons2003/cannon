@@ -29,36 +29,6 @@ def member_login():
     access_token = create_access_token(identity = user.user_id, expires_delta=False)
     return jsonify({'message': 'login successful', 'first_name': user.first_name, 'last_name': user.last_name, 'access_token': access_token, 'description': user.description}), 200
 
-@memberAuth_bp.route('/register', methods = ['POST']    )
-def member_register():
-    email = request.json.get('email')
-    first_name = request.json.get('first_name')
-    last_name = request.json.get('last_name')
-    password = request.json.get('password')
-
-    if not email or not first_name or not last_name or not password:
-        return jsonify({'message': 'Invalid input'}), 400
-
-    existing_user = User.query.filter_by(email=email).first()
-    if existing_user:
-        return jsonify({'message': 'Email already in use'}), 409
-
-    new_user = User(
-        first_name=first_name,
-        last_name=last_name,
-        email=email,
-    )
-    new_user.set_password(password)
-    try:
-        db.session.add(new_user)
-        db.session.commit()
-    except Exception as e:
-        db.session.rollback()  
-        return jsonify({'message': 'Registration failed', 'error': str(e)}), 500
-
-    access_token = create_access_token(identity = new_user.user_id)
-    return jsonify({'message': 'User registered successfully', 'email': new_user.email, 'access_token': access_token}), 200
-
 @memberAuth_bp.route('/confirmToken')
 @jwt_required()
 def confirmToken():

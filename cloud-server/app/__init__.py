@@ -55,6 +55,10 @@ def create_app():
     from .user import user_bp
     app.register_blueprint(user_bp, url_prefix = '/user')
 
+    ##register admin endpoints
+    from .admin import admin_bp
+    app.register_blueprint(admin_bp, url_prefix='/admin')
+
     #return app object 
     return app
     

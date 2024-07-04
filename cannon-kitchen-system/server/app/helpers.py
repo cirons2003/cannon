@@ -19,7 +19,6 @@ def handle_order(order_data, app):
         order = Order(order_id=order_data['order_id'], item_name=order_data['item_name'], selections=order_data['selections'], user_name=order_data['user_name'], scheduled_time=order_data['scheduled_time'])
 
         try: 
-            print('try block')
             db.session.add(order) 
             db.session.commit()
         except Exception as e:  
