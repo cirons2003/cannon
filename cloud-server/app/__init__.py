@@ -25,6 +25,8 @@ def create_app():
     elif configuration == 'production':
         app.config['DEBUG'] = False
         app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI_PRODUCTION')
+        app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+        app.config['SESSION_COOKIE_SECURE'] = True
     else: 
         raise ValueError('Invalid configuration setting')
 
