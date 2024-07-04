@@ -45,7 +45,7 @@ def upgrade():
     sa.Column('end_time', sa.DateTime(), nullable=False),
     sa.Column('order_padding', sa.Integer(), server_default='0', nullable=True),
     sa.Column('active_menu', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['active_menu'], ['menu.menu_id'], ),
+    sa.ForeignKeyConstraint(['active_menu'], ['menu.menu_id'], name='fk_meal_active_menu_menu_id'),
     sa.PrimaryKeyConstraint('meal_id')
     )
     op.create_table('menu_items',
