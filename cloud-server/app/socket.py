@@ -3,7 +3,7 @@ from flask import Blueprint, request, jsonify, current_app
 import os
 from .models import Order, User
 from datetime import datetime, timedelta
-from .extensions import db, socketio
+from .extensions import socketio, db
 from .helpers import cleanup_processed_order, relay_pending_orders, relay_order
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -17,7 +17,7 @@ def setup_socket_functionality():
         print('joined room')
 
     ##print server disconnected
-    @socketio.on('disconnect')
+    @socketio.on('disconnect')  
     def handle_disconnect():
         print('local server disconnected')
         

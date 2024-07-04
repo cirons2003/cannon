@@ -2,7 +2,6 @@ from .extensions import db, socketio
 from .models import Order
 from flask_socketio import rooms, emit
 from datetime import datetime, timezone
-from flask import current_app
 
 ##function called on server when an order has been processed 
 def cleanup_processed_order(data):
@@ -27,11 +26,10 @@ def relay_pending_orders():
         
 
 def relay_order(o: Order): 
-    with current_app.app_context():
-        socketio.emit('new_order', {
-            'order_id': o.order_id,
-            'item_name': o.item_name,
-            'selections': o.selections,
-            'user_name': o.user_name,
-            'scheduled_time': o.scheduled_time
-        }, to = 'authorized_room')
+    socketio.emit('new_order', {
+        'order_id': o.order_id,
+        'item_name': o.item_name,
+        'selections': o.selections,
+        'user_name': o.user_name,
+        'scheduled_time': o.scheduled_time
+    }, to = 'authorized_room')
