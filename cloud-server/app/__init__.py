@@ -5,7 +5,7 @@ from .extensions import db, jwt, socketio, migrate, login_manager
 from .authentication import memberAuth_bp, adminAuth_bp, error_bp
 from flask_cors import CORS
 
-configuration = 'development' ##production or development
+configuration = 'production' ##production or development
 
 def create_app():
 
