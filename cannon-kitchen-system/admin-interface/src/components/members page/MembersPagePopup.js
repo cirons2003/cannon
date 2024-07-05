@@ -15,7 +15,7 @@ export default function MembersPagePopup({ isOpen, onClose: closeModal, addMembe
                 console.log(newPassword)
                 addMember(firstName, lastName, email, newPassword, () => onClose())
             } else {
-                changePassword(userEmail, newPassword, () => { onClose(); alert('success!') })
+                changePassword(userEmail, newPassword, onClose)
             }
         }
     }

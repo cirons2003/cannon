@@ -59,7 +59,9 @@ def place_order():
     
     user_name=f"{user.first_name} {user.last_name}"
 
-    order = Order(user_name=user_name, item_name=item_name, selections=selections, scheduled_time=timestamp_string)
+    description = user.description
+
+    order = Order(user_name=user_name, item_name=item_name, selections=selections, scheduled_time=timestamp_string, description=description)
     try:
         db.session.add(order)
         db.session.commit()

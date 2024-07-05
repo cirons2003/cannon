@@ -5,7 +5,7 @@ type StaticState = {
 };
 
 const initialState: StaticState = {
-    baseURL: 'https://cannon-server.onrender.com',
+    baseURL: 'http://localhost:5000',//https://cannon-server.onrender.com',
 };
 
 const staticSlice = createSlice({

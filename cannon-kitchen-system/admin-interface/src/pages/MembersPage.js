@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from 'react';
 import MembersPageHeader from "../components/members page/MembersPageHeader.jsx";
-import MembersPageBody from "../components/members page/MembersPageBody.tsx";
+import MembersPageBody from "../components/members page/MembersPageBody.js";
 import DeleteConfirmation from "../components/DeleteConfirmation.js";
 import MembersPagePopup from "../components/members page/MembersPagePopup.js";
 import { useMembers } from "../custom hooks/useMembers.js";

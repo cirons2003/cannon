@@ -56,7 +56,7 @@ export const useMembers = () => {
                 memberList?.filter(member => (
                     member?.first_name?.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
                     member?.last_name?.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
-                    member?.email?.toLowerCase().startsWith(searchTerm.toLowerCase)
+                    member?.email?.toLowerCase().startsWith(searchTerm.toLowerCase())
                 ))
             )
         }

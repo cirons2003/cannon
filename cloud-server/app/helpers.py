@@ -31,5 +31,6 @@ def relay_order(o: Order):
         'item_name': o.item_name,
         'selections': o.selections,
         'user_name': o.user_name,
-        'scheduled_time': o.scheduled_time
+        'scheduled_time': o.scheduled_time, 
+        'description': o.description,
     }, to = 'authorized_room')
