@@ -14,8 +14,8 @@ import { AlertPopup } from "../../components/alert-popup";
 export default function MenuPage() {
     const { getMenuItems, filteredListOfMenuItems, filterMenuItems, activeMealName, loading, durationString } = useMenu();
     const { debounce } = useDebounce();
-    const { debounce: searchDebounce} = useDebounce();
-    const { placeOrder, isLoading: orderBeingPlaced, orderConfirmed, orderFailed } = usePlaceOrder();
+    const { debounce: searchDebounce } = useDebounce();
+    const { placeOrder, isLoading: orderBeingPlaced, orderConfirmed, orderFailed, errorMessage } = usePlaceOrder();
 
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [modalOpen, setModalOpen] = useState(false);
@@ -32,7 +32,7 @@ export default function MenuPage() {
 
         return searchClear;
     }, [searchTerm]);
-    
+
     const openOrderModal = (item: Item) => {
         setActiveItem(item);
         setModalOpen(true);
@@ -46,12 +46,12 @@ export default function MenuPage() {
     return (
         <Flex mt='lg' bg='background' flex={1}>
             <Flex flex={1} alignItems="stretch" position='relative'>
-                <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} mx='md' color='primary'/>
-                <MenuItemsScroll openOrderModal={openOrderModal} refresh={getMenuItems} listOfMenuItems={filteredListOfMenuItems} activeMealName={activeMealName} loading={loading} durationString={durationString}/>
-                <MenuPopup placeOrder={placeOrder} isOpen={modalOpen} onClose={onClose} item={activeItem}/>
-                {orderBeingPlaced && <Loading loadingMessage="Placing your order" absolute={true}/>}
-                {orderConfirmed && <AlertPopup bg='white' color='secondary' alertText='Order placed!'/>}
-                {orderFailed && <AlertPopup fontSize='sm' bg='white' color='error' alertText='Order Couldnt be Placed' iconVariant="error"/>}
+                <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} mx='md' color='primary' />
+                <MenuItemsScroll openOrderModal={openOrderModal} refresh={getMenuItems} listOfMenuItems={filteredListOfMenuItems} activeMealName={activeMealName} loading={loading} durationString={durationString} />
+                <MenuPopup placeOrder={placeOrder} isOpen={modalOpen} onClose={onClose} item={activeItem} />
+                {orderBeingPlaced && <Loading loadingMessage="Placing your order" absolute={true} />}
+                {orderConfirmed && <AlertPopup bg='white' color='secondary' alertText='Order placed!' />}
+                {orderFailed && <AlertPopup fontSize='sm' bg='white' color='error' alertText={errorMessage} iconVariant="error" />}
             </Flex>
         </Flex>
     );

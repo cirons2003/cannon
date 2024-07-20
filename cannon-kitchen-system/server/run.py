@@ -3,5 +3,5 @@ from app.extensions import sio
 
 if __name__ == '__main__':
     app = create_app()
-    sio.connect('https://cannon-server.onrender.com')
+    sio.connect('http://localhost:5000')#'https://cannon-server.onrender.com')
     sio.wait()  

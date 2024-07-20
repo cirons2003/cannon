@@ -11,6 +11,8 @@ type AlertPopupProps = {
     iconVariant?: 'success' | 'error' | 'alert';
     alertText?: string;
     fontSize?: string;
+    shiftY?: number;
+    errorDescription?: string;
 };
 
 const iconAsMap = {
@@ -26,13 +28,13 @@ const iconNameMap = {
 };
 
 export const AlertPopup = (props: AlertPopupProps) => {
-    const { bg, color, h = 60, w = 300, iconVariant = 'success', alertText='alert!', fontSize='md' } = props;
+    const { bg, color, h = 60, w = 300, iconVariant = 'success', alertText = 'alert!', fontSize = 'md', shiftY = 0 } = props;
     return (
-        <Alert position='absolute' top='45%' left='50%' w={`${w}px`} h={`${h}px`} style={{ transform: `translate(-${w / 2}px, -${h / 2}px)` }} bg='transparent' p={0}>
-            <Flex direction='row' px='sm' borderRadius='full' bg={bg} w='full' h='full' align="center" borderColor={color} borderWidth={1}>
-                <Icon mr='sm' color={color} size={7} as={iconAsMap[iconVariant]} name={iconNameMap[iconVariant]}/>
-                <Text isTruncated bold fontSize={fontSize} color={color}>{alertText}</Text>
+        <Alert display='inline-block' position='absolute' top={`${45 + shiftY}%`} left='50%' w={`${w * 1.05}px`} minH={`${h}px`} style={{ transform: `translate(-${w / 2}px, -${h / 2}px)` }} bg='transparent' p={0}>
+            <Flex direction='row' pl='sm' pr='xl' py='xs' borderRadius='full' bg={bg} w='full' h=' full' align="center" borderColor={color} borderWidth={1}>
+                <Icon mr='sm' color={color} size={7} as={iconAsMap[iconVariant]} name={iconNameMap[iconVariant]} />
+                <Text fontSize={fontSize} color={color}>{alertText}</Text>
             </Flex>
-        </Alert>
+        </Alert >
     );
 }

@@ -5,7 +5,7 @@ type StaticState = {
 };
 
 const initialState: StaticState = {
-    baseURL: 'https://cannon-server.onrender.com',
+    baseURL: 'https://plenty-kings-watch.loca.lt',
 };
 
 const staticSlice = createSlice({

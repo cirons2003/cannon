@@ -45,7 +45,7 @@ export default function Loginpage() {
                     <Navigate to='/' />
                     :
                     <Flex justify='center' align='center' width='100vw' height='100vh' bg={colors.primary}>
-                        <Flex py='40px' direction='column' minWidth='400px' width='25vw' height='60vh' bg={colors.secondary} borderRadius={20} justify='start' align='center' px='30px'>
+                        <Flex py='40px' direction='column' minWidth='400px' width='25vw' height='70vh' bg={colors.secondary} borderRadius={20} justify='start' align='center' px='30px'>
                             <Flex direction='column' align='center' mb='10px'>
                                 <Text as='b' color={colors.primary} fontSize='40px'>{orgname}</Text>
                                 <Text as='i' color={colors.primary}>Admin Interface</Text>

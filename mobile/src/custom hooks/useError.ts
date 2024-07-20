@@ -24,6 +24,9 @@ const useError = () => {
             if (err.response.status === 404) {
                 dispatch(setConnected(false));
             }
+            if (err.response.status === 400) {
+                setErrorMessage(err.response?.data?.message ?? 'bad request, please try again')
+            }
 
         }
         else {

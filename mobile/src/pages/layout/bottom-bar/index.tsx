@@ -30,8 +30,9 @@ export default function BottomBar() {
 
     return (
         <Flex width='full' height='80px' direction='row' align='center' justify='space-around' bg='background'>
-            <BottomButton onPress={handlePress} pageNum={pageNum} num={0} icon={<Icon as={MaterialCommunityIcons} name='hamburger-plus' size={iconSize} color={iconColor(0)} />} />
-            <BottomButton onPress={handlePress} pageNum={pageNum} num={1} icon={<Icon as={MaterialCommunityIcons} name='account-circle-outline' size={iconSize} color={iconColor(1)} />} />
+            <BottomButton onPress={handlePress} pageNum={pageNum} num={0} icon={<Icon as={MaterialCommunityIcons} name='account-circle-outline' size={iconSize} color={iconColor(0)} />} />
+            <BottomButton onPress={handlePress} pageNum={pageNum} num={1} icon={<Icon as={MaterialCommunityIcons} name='hamburger-plus' size={iconSize} color={iconColor(1)} />} />
+            <BottomButton onPress={handlePress} pageNum={pageNum} num={2} icon={<Icon as={MaterialCommunityIcons} name='account-circle-outline' size={iconSize} color={iconColor(2)} />} />
         </Flex>
     );
 };

@@ -11,7 +11,7 @@ export default function HorizontalNavigator() {
     const pagerRef = useRef<PagerView>(null);
     const pageNum = useAppSelector(state => state.navigation.pageNum);
     const dispatch = useAppDispatch();
-    
+
     useEffect(() => {
         if (pagerRef.current) {
             pagerRef.current.setPage(pageNum);
@@ -23,7 +23,8 @@ export default function HorizontalNavigator() {
     };
 
     return (
-        <PagerView initialPage = {0} ref = {pagerRef} style={{ flex: 1 }} onPageSelected={onPageSelected}>
+        <PagerView initialPage={1} ref={pagerRef} style={{ flex: 1 }} onPageSelected={onPageSelected}>
+            <OrdersPage key='0' />
             <MenuPage key='1' />
             <ProfilePage key='2' />
         </PagerView>

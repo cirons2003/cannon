@@ -9,9 +9,9 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(50), unique = True, index = True, nullable = False)
     password_hash = db.Column(db.String(255), nullable = False)
     description = db.Column(db.String(500))
-    placed_orders = db.Column(db.JSON)
-    last_k_meals = db.Column(db.JSON)
     suspended = db.Column(db.Boolean, nullable = False, server_default = '0')  
+    orders = db.relationship('Order', back_populates='user', lazy = True, cascade='all, delete-orphan')
+
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -41,8 +41,11 @@ class Order(db.Model):
     user_name = db.Column(db.String(50), nullable = False)
     item_name = db.Column(db.String(50), nullable = False)
     selections = db.Column(db.JSON, nullable=False)
-    scheduled_time = db.Column(db.String(128), nullable = False) 
     description = db.Column(db.String(500))
+    meal_name = db.Column(db.String(50))
+    status = db.Column(db.String(10)) #pending, placed, printed, expired
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable = False)
+    user = db.relationship('User', back_populates='orders')
     
 
 menu_items = db.Table(

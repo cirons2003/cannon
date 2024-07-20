@@ -12,6 +12,7 @@ def setup_socket_events(app):
             get_orders_timer = threading.Timer(3, sio.emit, ['request_pending_orders'])
             get_orders_timer.start()
 
+
         ##IMPORTANT: handles an incoming order 
         @sio.event
         def new_order(data):

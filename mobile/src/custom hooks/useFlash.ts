@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export const useFlash = (setState: React.Dispatch<React.SetStateAction<boolean>>) => {
+export const useFlash = (setState: React.Dispatch<React.SetStateAction<boolean>>, onFlashFinished?: () => void) => {
     const [flashId, setFlashId] = useState<NodeJS.Timeout | undefined>(undefined);
 
     const flash = (duration: number) => {
@@ -8,8 +8,15 @@ export const useFlash = (setState: React.Dispatch<React.SetStateAction<boolean>>
             cleanUp();
         }
 
+        const onFlash = () => {
+            setState(false);
+            if (onFlashFinished) {
+                onFlashFinished();
+            }
+        }
+
         setState(true);
-        const id = setTimeout(() => setState(false), duration);
+        const id = setTimeout(onFlash, duration);
         setFlashId(id);
     };
 

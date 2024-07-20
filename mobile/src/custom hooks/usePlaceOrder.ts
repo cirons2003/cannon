@@ -4,6 +4,7 @@ import { useAppSelector } from "./hooks";
 import useError from "./useError";
 import { useEffect, useState } from "react";
 import { useFlash } from "./useFlash";
+import { useOrders } from "./useOrders";
 
 export type OrderProps = {
     item_name: string;
@@ -13,14 +14,15 @@ export type OrderProps = {
 
 export const usePlaceOrder = () => {
     const baseURL = useAppSelector(state => state.static.baseURL) + '/order';
-    const { handleErrors } = useError();
+    const { handleErrors, errorMessage, clearErrors } = useError();
+    const { getPastOrders } = useOrders();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [orderConfirmed, setOrderConfirmed] = useState<boolean>(false);
     const [orderFailed, setOrderFailed] = useState<boolean>(false);
 
     const { flash: flashConfirm, cleanUp: cleanUpConfirm } = useFlash(setOrderConfirmed);
-    const { flash: flashError, cleanUp: cleanUpError } = useFlash(setOrderFailed);
+    const { flash: flashError, cleanUp: cleanUpError } = useFlash(setOrderFailed, clearErrors);
 
     useEffect(() => {
         return () => {
@@ -34,14 +36,15 @@ export const usePlaceOrder = () => {
         setIsLoading(true);
         try {
             const response = await axios.post(baseURL + '/placeOrder', { item_name: item_name, selections: selections });
+            getPastOrders();
             flashConfirm(3000);
         } catch (err) {
-            flashError(3000)
+            flashError(5000)
             handleErrors(err)
         } finally {
             setIsLoading(false);
         }
     };
 
-    return { placeOrder, isLoading, orderConfirmed, orderFailed };
+    return { placeOrder, isLoading, orderConfirmed, orderFailed, errorMessage };
 };

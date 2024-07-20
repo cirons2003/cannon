@@ -2,8 +2,9 @@ from flask import Blueprint, request, jsonify
 from .models import User, Meal, Menu, Item
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from .extensions import db
-from datetime import datetime
-import pytz
+from .helpers import get_active_meal
+import os
+
 
 user_bp = Blueprint('user', __name__)
 
@@ -33,27 +34,7 @@ def changeDescription():
 @user_bp.route('/getMenuItems')
 @jwt_required()
 def getMenuItems():
-    now = datetime.now(pytz.timezone('America/New_York'))
-
-    now_day = (now.weekday() + 1) % 7
-    
-    meals = Meal.query.filter_by(day_of_week = now_day).all()
-     
-    current_meal = None
-    for m in meals: 
-        start_hour_str, start_min_str = m.start_time.split(':') 
-        start_hour = int(start_hour_str)
-        start_min = int(start_min_str)
-        print(f'meal with minute:{start_min}, hour:{start_hour}')
-        end_hour_str, end_min_str = m.end_time.split(':')
-        end_hour = int(end_hour_str)
-        end_min = int(end_min_str)
-        if (now.hour < start_hour or (now.hour == start_hour and now.minute < start_min)):
-            continue
-        if (now.hour > end_hour or (now.hour == end_hour and now.minute > end_min)):
-            continue
-        current_meal = m
-        break
+    current_meal = get_active_meal()
 
     #FLAGS: -1 means no active meal, 0 means no active menu but yes active meal, 1 means active meal and active menu
     if current_meal is None: 
@@ -86,3 +67,24 @@ def getMenuItems():
 
     return jsonify({'message': 'successfully fetched meals', 'menu_items': menu_items, 'active_meal_name': current_meal.name, 'duration_string': duration_string, 'flag': 1}), 200 
 
+
+@user_bp.route('/getPastOrders')
+@jwt_required()
+def getPastOrders(): 
+    user = User.query.get(get_jwt_identity())
+    if (user is None): 
+        return jsonify({'message':'user not found'}), 403
+    orders = [{
+        'order_id': o.order_id, 
+        'item_name': o.item_name, 
+        'selections': o.selections, 
+        'meal_name': o.meal_name, 
+        'status': o.status
+    } for o in user.orders]
+
+    k = int(os.getenv('NUMBER_OF_PAST_ORDERS'))
+    last_k_orders = orders[-k:]
+    last_k_orders.reverse()
+    print(last_k_orders)
+
+    return jsonify({'message': 'successfully fetched past orders', 'orders': last_k_orders}), 200 

@@ -6,5 +6,4 @@ class Order(db.Model):
     user_name = db.Column(db.String(50), nullable = False)
     item_name = db.Column(db.String(50), nullable = False)
     selections = db.Column(db.JSON, nullable=False)
-    scheduled_time = db.Column(db.String(128), nullable = False) 
     description = db.Column(db.String(500))
