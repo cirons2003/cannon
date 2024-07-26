@@ -1,12 +1,14 @@
 import axios from "axios";
-import { useAppSelector } from "./hooks";
+import { useAppDispatch, useAppSelector } from "./hooks";
 import useError from "./useError"
+import { setGroupedOrders } from "../features/dataSlice";
 import { useState } from "react";
 
 export type PastOrder = {
     order_id: number,
     item_name: string;
     meal_name: string;
+    meal_date: string;
     status: string;
     selections: string[];
 }
@@ -18,25 +20,32 @@ export type GroupedOrder = {
 
 export const useOrders = () => {
     const { handleErrors } = useError();
+    const dispatch = useAppDispatch();
     const baseURL = useAppSelector(state => state.static.baseURL) + '/user';
 
-    const [groupedOrders, setGroupedOrders] = useState<GroupedOrder[]>();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const getPastOrders = async () => {
+        setIsLoading(true);
         try {
             const response = await axios.get(baseURL + '/getPastOrders');
-            setGroupedOrders(groupOrders(response.data.orders))
+            dispatch(setGroupedOrders(groupOrders(response.data.orders)));
         } catch (err) {
             handleErrors(err);
+        }
+        finally {
+            setIsLoading(false);
         }
     };
 
     const groupOrders = (orders: PastOrder[]) => {
         const groupedOrders = orders.reduce<{ [meal_name: string]: PastOrder[] }>((acc, order) => {
-            if (!(order.meal_name in acc)) {
-                acc[order.meal_name] = []
+            const dateString = order.meal_date?.substring(5, 7) + '/' + order.meal_date?.substring(8, 10);
+            const meal_name = dateString + ' | ' + order.meal_name
+            if (!(meal_name in acc)) {
+                acc[meal_name] = []
             }
-            acc[order.meal_name].push(order)
+            acc[meal_name].push(order)
             return acc;
         }, {})
 
@@ -46,5 +55,5 @@ export const useOrders = () => {
         }));
     }
 
-    return { getPastOrders, groupedOrders }
+    return { getPastOrders, isLoading }
 };

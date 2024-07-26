@@ -79,12 +79,12 @@ def getPastOrders():
         'item_name': o.item_name, 
         'selections': o.selections, 
         'meal_name': o.meal_name, 
-        'status': o.status
+        'status': o.status, 
+        'meal_date': o.meal_date
     } for o in user.orders]
 
     k = int(os.getenv('NUMBER_OF_PAST_ORDERS'))
     last_k_orders = orders[-k:]
     last_k_orders.reverse()
-    print(last_k_orders)
 
     return jsonify({'message': 'successfully fetched past orders', 'orders': last_k_orders}), 200 

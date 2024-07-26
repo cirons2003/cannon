@@ -21,14 +21,16 @@ def cleanup_processed_order(data):
 def relay_pending_orders():
     if 'authorized_room' not in rooms():
         return 
-    orders = Order.query.all()
+    orders = Order.query.filter(Order.status == 'pending').all()
     for o in orders:
         relay_order(o)
         
 
 def relay_order(o: Order): 
     active_meal = get_active_meal()
-    if (active_meal is None or o.meal_name != active_meal.name):
+    meal_date = get_meal_date_now()
+    
+    if (active_meal is None or o.meal_name != active_meal.name or str(o.meal_date) != str(meal_date)):
         try: 
             o.status = 'expired'
             db.session.commit()
@@ -68,11 +70,15 @@ def get_active_meal():
 
 def get_order_credits_left(user, active_meal):
     count = int(os.getenv('orders_per_meal'))
+    meal_date = get_meal_date_now()
 
     for order in user.orders: 
-        if (order.meal_name == active_meal.name):
+        if (order.meal_name == active_meal.name and order.meal_date == meal_date):
             count = count-1
             if (count == 0):
                 return 0
     return count
     
+def get_meal_date_now():
+    now = datetime.now(pytz.timezone('America/New_York'))
+    return now.date()

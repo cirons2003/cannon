@@ -3,6 +3,7 @@ import userReducer from './features/userSlice';
 import staticReducer from './features/staticSlice';
 import navigationReducer from './features/navigationSlice';
 import validationReducer from './features/validationSlice';
+import dataReducer from './features/dataSlice';
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         user: userReducer,
         navigation: navigationReducer,
         validation: validationReducer,
+        data: dataReducer,
     },
 });
 

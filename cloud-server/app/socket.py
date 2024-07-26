@@ -4,7 +4,7 @@ import os
 from .models import Order, User, Meal, Menu
 from datetime import datetime, timedelta
 from .extensions import socketio, db
-from .helpers import cleanup_processed_order, relay_pending_orders, relay_order, get_active_meal, get_order_credits_left
+from .helpers import cleanup_processed_order, relay_pending_orders, relay_order, get_active_meal, get_order_credits_left, get_meal_date_now
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
@@ -73,7 +73,9 @@ def place_order():
     if (item_name not in [i.name for i in active_menu.items]):
         return jsonify({'message': f'failed to place order, item not found in {active_menu.name}'}), 400
     
-    order = Order(user_name=user_name, item_name=item_name, selections=selections, description=description, meal_name=active_meal.name, user = user)
+    meal_date = get_meal_date_now()
+    
+    order = Order(user_name=user_name, item_name=item_name, selections=selections, description=description, meal_name=active_meal.name, user = user, meal_date = meal_date, status = 'pending')
 
     try:    
         db.session.add(order)

@@ -5,7 +5,7 @@ type StaticState = {
 };
 
 const initialState: StaticState = {
-    baseURL: 'https://plenty-kings-watch.loca.lt',
+    baseURL: 'https://rare-lions-act.loca.lt',
 };
 
 const staticSlice = createSlice({
