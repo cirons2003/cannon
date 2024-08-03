@@ -4,7 +4,7 @@ import os
 from .models import Order, User, Meal, Menu
 from datetime import datetime, timedelta
 from .extensions import socketio, db
-from .helpers import cleanup_processed_order, relay_pending_orders, relay_order, get_active_meal, get_order_credits_left, get_meal_date_now
+from .helpers import change_order_status, relay_pending_orders, relay_order, get_active_meal, get_order_credits_left, get_meal_date_now
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
@@ -28,9 +28,10 @@ def setup_socket_functionality():
     
 
     ##handle the processed order
-    @socketio.on('order_processed')
-    def order_processed(data):
-        cleanup_processed_order(data)
+    @socketio.on('update_order_status')
+    def update_order_status(data):
+        change_order_status(data)
+
 
 
 

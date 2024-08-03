@@ -13,7 +13,7 @@ def change_order_status(data):
         try:
             order.status = data['new_status']
             db.session.commit()
-            print(f'order {data["order_id"]} was {data['new_status']}')
+            print(f'order {data["order_id"]} was {data["new_status"]}')
         except Exception as e:
             db.session.rollback()
             print(f'the following error occurred: {e}')

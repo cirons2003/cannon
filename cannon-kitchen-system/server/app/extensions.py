@@ -7,4 +7,3 @@ sio = socketio.Client()
 db = SQLAlchemy()
 migrate = Migrate()
 printer = PrintHandler("Star TSP143IIILAN Cutter (Copy 1)")
-queue = 
