@@ -66,7 +66,7 @@ def place_order():
         return jsonify({'message': 'failed to place order, no meals are active'}), 400
 
     order_credits_left = get_order_credits_left(user, active_meal)
-    if order_credits_left == 0: 
+    if order_credits_left <= 0: 
         return jsonify({'message': 'out of mobile orders for this meal, please use the ipads to place more orders'}), 400
    
     active_menu = active_meal.active_menu

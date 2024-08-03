@@ -67,14 +67,21 @@ def get_active_meal():
             continue
         current_meal = m
         break
+    print(current_meal)
     return current_meal
 
 def get_order_credits_left(user, active_meal):
     count = int(os.getenv('ORDERS_PER_MEAL'))
     meal_date = get_meal_date_now()
+    print('activeMeal:', active_meal.name)
+    print('now:', meal_date)
+    
 
     for order in user.orders: 
+        print('date:',order.meal_date)
+        print('name:', order.meal_name)
         if (order.meal_name == active_meal.name and order.meal_date == meal_date):
+            print('reducing count from', count, 'to', count-1)
             count = count-1
             if (count == 0):
                 return 0
