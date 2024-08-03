@@ -23,7 +23,7 @@ class PrintHandler():
     def __init__(self, printer_name):
         self.printer_name = printer_name
 
-    def print_orders(self, order_list, db): 
+    def print_orders(self, order_list): 
         hprinter = win32print.OpenPrinter(self.printer_name)
         try:
             hdc = win32ui.CreateDC()

@@ -22,11 +22,11 @@ def setup_socket_events(app):
                 return 
             
             if status_code == 1: 
-                new_status = 'printed'
+                new_status = 'placed'
             else: 
                 new_status = 'placed'
                
-            sio.emit('order_printed', {'order_id': data['order_id'], 'new_status': new_status})
+            sio.emit('update_order_status', {'order_id': data['order_id'], 'new_status': new_status})
             
 
         @sio.event
