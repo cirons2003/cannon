@@ -41,7 +41,7 @@ class Order(db.Model):
     user_name = db.Column(db.String(50), nullable = False)
     item_name = db.Column(db.String(50), nullable = False)
     selections = db.Column(db.JSON, nullable=False)
-    description = db.Column(db.String(500))
+    description = db.Column(db.String(120))
     meal_name = db.Column(db.String(50), nullable = False)
     meal_date = db.Column(db.String(10), nullable = False) ##east coast based date (yyyy-mm-dd)
     status = db.Column(db.String(10)) #pending, placed, printed, expired
