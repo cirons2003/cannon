@@ -15,11 +15,19 @@ def setup_socket_events(app):
         ##IMPORTANT: handles an incoming order 
         @sio.event
         def new_order(data):
-            processed, message = handle_order(data, app)
+            status_code, message = handle_order(data, app) #0=fail, 1=print, 2=stored
             print(message)
-            ## DANGER 
-            if processed:  
-                sio.emit('order_processed', {'order_id': data['order_id']})
+            
+            if status_code == 0:
+                return 
+            
+            if status_code == 1: 
+                new_status = 'printed'
+            else: 
+                new_status = 'placed'
+               
+            sio.emit('order_printed', {'order_id': data['order_id'], 'new_status': new_status})
+            
 
         @sio.event
         def disconnect():

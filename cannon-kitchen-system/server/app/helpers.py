@@ -19,10 +19,16 @@ def handle_order(order_data: Order, app):
                       user_name=order_data['user_name'], description=order_data['description'])
 
         try: 
-            printer.print_order(order)
+            printer.print_orders([order])
         except Exception as e:  
-            db.session.rollback()
-            return False, str(e) 
-        
-        print('handled')
-        return True, f'successfully handled order {order.order_id}'
+            try: 
+                db.session.add(order) 
+                db.session.commit()
+                print('placed')
+                return 2, f'failed to print order {order.order_id}; order queued instead'
+            except Exception as e: 
+                db.session.rollback()
+                return False, str(e) #'couldnt add to database' 
+
+        print('printed')
+        return 1, f'successfully handled order {order.order_id}'

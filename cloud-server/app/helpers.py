@@ -6,13 +6,14 @@ import pytz
 import os
 
 ##function called on server when an order has been processed 
-def cleanup_processed_order(data):
+def change_order_status(data):
     order = Order.query.get(data['order_id'])
+
     if order:
         try:
-            order.status = 'placed'
+            order.status = data['new_status']
             db.session.commit()
-            print(f'order {data["order_id"]} was placed')
+            print(f'order {data["order_id"]} was {data['new_status']}')
         except Exception as e:
             db.session.rollback()
             print(f'the following error occurred: {e}')
@@ -71,7 +72,7 @@ def get_active_meal():
 def get_order_credits_left(user, active_meal):
     count = int(os.getenv('ORDERS_PER_MEAL'))
     meal_date = get_meal_date_now()
-    
+
     for order in user.orders: 
         if (order.meal_name == active_meal.name and order.meal_date == meal_date):
             count = count-1
