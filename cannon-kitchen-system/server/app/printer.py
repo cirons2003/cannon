@@ -50,27 +50,25 @@ class OrderReceiptGenerator():
         self.top_margin = 30
         self.bottom_margin = 10
         self.side_margin = 0
-        
-        
 
-    def generateReceipt(self):
+    def generateReceipt(self, order):
         self.current_pixel = 0
         self.fontNormal()
 
         self.appendSpacing(self.top_margin)
 
-        self.appendUserNameSection("Carson Irons")
+        self.appendUserNameSection(order.user_name)
 
         self.appendHR()
 
-        self.appendOrderNameSection("Turkey Shoot")
+        self.appendOrderNameSection(order.item_name)
 
-        selections = ['spinach', 'mushroom', 'bacon']
+        selections = order.selections
         for s in selections:
             self.appendSelection(s)
         self.appendSpacing(2 * self.line_spacing)
 
-        self.appendSpecialRequestSection("No Dairy Please")
+        self.appendSpecialRequestSection(order.description)
         self.appendSpacing(self.bottom_margin)
 
         self.device_context.TextOut(0, self.current_pixel, ".")
