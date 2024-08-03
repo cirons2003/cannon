@@ -1,7 +1,7 @@
 from app import create_app
-from app.extensions import sio
+from app.extensions import sio, printer
+import time
 
 if __name__ == '__main__':
-    app = create_app()
-    sio.connect('http://localhost:5000')#'https://cannon-server.onrender.com')
+    sio.connect('https://cannon-server.onrender.com')
     sio.wait()  

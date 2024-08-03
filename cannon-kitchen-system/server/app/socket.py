@@ -1,6 +1,5 @@
-from .extensions import sio, db
+from .extensions import sio
 import threading
-from .models import Order 
 from .helpers import handle_order
 
 def setup_socket_events(app):

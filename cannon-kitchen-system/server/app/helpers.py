@@ -1,10 +1,9 @@
 from datetime import datetime, timezone, timedelta
-from .extensions import db 
+from .extensions import db, printer
 from .models import Order
-from flask import current_app
 
 
-def handle_order(order_data, app):
+def handle_order(order_data: Order, app):
     with app.app_context():
         print('handling order')
         if 'order_id' not in order_data: 
@@ -20,11 +19,10 @@ def handle_order(order_data, app):
                       user_name=order_data['user_name'], description=order_data['description'])
 
         try: 
-            db.session.add(order) 
-            db.session.commit()
+            printer.print_order(order)
         except Exception as e:  
             db.session.rollback()
-            return False, str(e) #'couldnt add to database' 
-
+            return False, str(e) 
+        
         print('handled')
         return True, f'successfully handled order {order.order_id}'

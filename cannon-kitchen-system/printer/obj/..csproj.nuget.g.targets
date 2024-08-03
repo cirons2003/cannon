@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)microsoft.extensions.apidescription.server\6.0.5\build\Microsoft.Extensions.ApiDescription.Server.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server\6.0.5\build\Microsoft.Extensions.ApiDescription.Server.targets')" />
+    <Import Project="$(NuGetPackageRoot)starmicronics.starioextension.desktop\1.9.0\build\net35\StarMicronics.StarIOExtension.Desktop.targets" Condition="Exists('$(NuGetPackageRoot)starmicronics.starioextension.desktop\1.9.0\build\net35\StarMicronics.StarIOExtension.Desktop.targets')" />
+    <Import Project="$(NuGetPackageRoot)starmicronics.stario.desktop\2.10.0\build\net35\StarMicronics.StarIO.Desktop.targets" Condition="Exists('$(NuGetPackageRoot)starmicronics.stario.desktop\2.10.0\build\net35\StarMicronics.StarIO.Desktop.targets')" />
+  </ImportGroup>
+</Project>
