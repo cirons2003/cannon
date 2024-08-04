@@ -89,4 +89,4 @@ def get_order_credits_left(user, active_meal):
     
 def get_meal_date_now():
     now = datetime.now(pytz.timezone('America/New_York'))
-    return now.date()
+    return now.date().strftime('%Y-%m-%d')
