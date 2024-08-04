@@ -16,7 +16,7 @@ cd ..\server
 pip install -r requirements.txt
 
 # Run database migrations
-flask db upgrade
+#flask db upgrade
 
 #Deactivate
 deactivate

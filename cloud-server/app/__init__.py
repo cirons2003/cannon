@@ -13,7 +13,7 @@ def create_app():
     app = Flask(__name__)
     CORS(app, supports_credentials = True)
 
-    if configuration == 'development':
+    if configuration == 'production':
         load_dotenv()
 
     app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY') 

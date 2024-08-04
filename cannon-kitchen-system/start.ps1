@@ -6,18 +6,14 @@
 
 
 ##Navigate to admin-interface and start interface on port 1895
-cd ./admin-interface
-npm start -- --port 1895
+Start-Process powershell -ArgumentList "cd ./admin-interface; npm start"
+Start-Sleep -Seconds 5
 
-##Navigate to server activate virtual environment 
-cd ../server
-myEnv/Scripts/Activate
+##Give feedback
+Write-Host "Successfully started Cannon Kitchen System!"
+Write-Host "To access the CKS Admin Interface, please visit http://localhost:3000"
+Write-Host "You are currently viewing the CKS server logs..."
 
-##Run server 
+cd ./server
+myEnv/Scripts/Activate 
 python run.py
-
-##Deactivate virtual environment
-deactivate
-
-##Navigate back to root directory 
-cd ../
