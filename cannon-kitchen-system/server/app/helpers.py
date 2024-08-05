@@ -1,9 +1,8 @@
-from datetime import datetime, timezone, timedelta
-from .extensions import db, printer
-from .models import Order
+from .extensions import printer #, db
+#from .models import Order
 
 
-def handle_order(order_data: Order, app):
+def handle_order(order_data, app):
     with app.app_context():
         print('handling order')
         if 'order_id' not in order_data: 
@@ -15,8 +14,8 @@ def handle_order(order_data: Order, app):
         if 'description' not in order_data: 
             return False, 'missing description'
         
-        order = Order(order_id=order_data['order_id'], item_name=order_data['item_name'], selections=order_data['selections'], 
-                      user_name=order_data['user_name'], description=order_data['description'])
+        order = {'order_id': order_data['order_id'], 'item_name': order_data['item_name'], 'selections':order_data['selections'], 
+                      'user_name':order_data['user_name'], 'description':order_data['description']}
 
         try: 
             printer.print_orders([order])
@@ -25,7 +24,7 @@ def handle_order(order_data: Order, app):
             raise Exception(f"Printer failed to print... check printer connection: {e}")
 
         print('printed')
-        return 1, f'successfully handled order {order.order_id}'
+        return 1, f'successfully handled order {order['order_id']}'
 
 
 '''

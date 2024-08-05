@@ -58,18 +58,18 @@ class OrderReceiptGenerator():
 
         self.appendSpacing(self.top_margin)
 
-        self.appendUserNameSection(order.user_name)
+        self.appendUserNameSection(order['user_name'])
 
         self.appendHR()
 
-        self.appendOrderNameSection(order.item_name)
+        self.appendOrderNameSection(order['item_name'])
 
-        selections = order.selections
+        selections = order['selections']
         for s in selections:
             self.appendSelection(s)
         self.appendSpacing(2 * self.line_spacing)
 
-        self.appendSpecialRequestSection(order.description)
+        self.appendSpecialRequestSection(order['description'])
         self.appendSpacing(self.bottom_margin)
 
         self.device_context.TextOut(0, self.current_pixel, ".")

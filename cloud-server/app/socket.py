@@ -59,7 +59,7 @@ def place_order():
     
     user_name=f"{user.first_name} {user.last_name}"
 
-    description = user.description
+    description = user.description  
 
     active_meal = get_active_meal()
     if active_meal is None: 
