@@ -13,7 +13,7 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.cars~on123.cannonmobile"
+      "bundleIdentifier": "com.carson123.cannonmobile"
     },
     "android": {
       "adaptiveIcon": {
