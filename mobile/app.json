@@ -2,6 +2,7 @@
   "expo": {
     "name": "Cannon Mobile",
     "slug": "cannon-mobile",
+    "entryPoint": "./path/to/your/Main.js",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
