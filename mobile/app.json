@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Cannon Mobile",
-    "slug": "cannon-mobile",
+    "name": "CDE Mobile",
+    "slug": "cde-mobile",
     "entryPoint": "./AppEntry.js",
     "version": "1.0.0",
     "orientation": "portrait",
