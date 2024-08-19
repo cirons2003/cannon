@@ -7,15 +7,13 @@ export default function MembersPagePopup({ isOpen, onClose: closeModal, addMembe
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
-    const [newPassword, setNewPassword] = useState('')
 
     const onSave = () => {
         if (validate()) {
             if (addModal) {
-                console.log(newPassword)
-                addMember(firstName, lastName, email, newPassword, () => onClose())
+                addMember(firstName, lastName, email, () => onClose())
             } else {
-                changePassword(userEmail, newPassword, onClose)
+                changePassword(userEmail, onClose)
             }
         }
     }
@@ -30,17 +28,11 @@ export default function MembersPagePopup({ isOpen, onClose: closeModal, addMembe
         setEmail('')
         setFirstName('')
         setLastName('')
-        setNewPassword('')
     }
 
     const validate = () => {
         if (addModal) {
-            if (firstName === '' || lastName === '' || email === '' || newPassword === '') {
-                alert('all fields are required')
-                return false;
-            }
-        } else {
-            if (newPassword === '') {
+            if (firstName === '' || lastName === '' || email === '') {
                 alert('all fields are required')
                 return false;
             }
@@ -60,7 +52,7 @@ export default function MembersPagePopup({ isOpen, onClose: closeModal, addMembe
                 <ModalContent color={colors.primary} bg={colors.secondary}>
                     <ModalHeader>
                         <Flex align='center'>
-                            <Text fontSize='25px' as='b' color={colors.primary}>{addModal ? 'Add Member' : `Change password for ${userEmail}`}</Text>
+                            <Text fontSize='25px' as='b' color={colors.primary}>{addModal ? 'Add Member' : `Reset password for ${userEmail}`}</Text>
                         </Flex>
                     </ModalHeader>
                     <ModalCloseButton />
@@ -81,10 +73,6 @@ export default function MembersPagePopup({ isOpen, onClose: closeModal, addMembe
                                 </FormControl>
                             </>
                         }
-                        <FormControl>
-                            <FormLabel>{addModal ? 'Password' : 'New Password'}</FormLabel>
-                            <Input onKeyPress={handlePress} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-                        </FormControl>
 
                     </ModalBody>
                     <ModalFooter>

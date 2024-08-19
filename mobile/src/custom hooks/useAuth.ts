@@ -15,14 +15,12 @@ export type loginProps = {
 export const useAuth = () => {
     const baseURL = useAppSelector(state => state.static.baseURL) + '/memberAuth';
     const dispatch = useAppDispatch();
-    const [emailError, setEmailError] = useState<string>('');
-    const [passwordError, setPasswordError] = useState<string>('');
+    const [isError, setIsError] = useState(false)
     const [loading, setLoading] = useState(false);
     const { handleErrors, errorCode, errorMessage, clearErrors } = useError();
 
     const login = async (props: loginProps) => {
         const { email, password, onSuccess } = props;
-        setLoading(true);
         try {
             const response = await axios.post(baseURL + '/login', { email: email, password: password });
             const data = response.data;
@@ -37,11 +35,17 @@ export const useAuth = () => {
             if (onSuccess) {
                 onSuccess();
             }
+            return true
         } catch (err) {
+            setIsError(true)
             console.error(err);
+            return false
         }
-        setLoading(false);
     };
+
+    const clearError = () => {
+        setIsError(false)
+    }
 
     const logout = async () => {
         try {
@@ -70,5 +74,5 @@ export const useAuth = () => {
         }
     };
 
-    return { login, emailError, passwordError, loading, logout, confirmToken };
+    return { login, isError, clearError, loading, logout, confirmToken };
 };

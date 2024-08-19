@@ -18,9 +18,9 @@ export const useMembers = () => {
         }
     }
 
-    const addMember = async (firstName, lastName, email, password, onSuccess) => {
+    const addMember = async (firstName, lastName, email, onSuccess) => {
         try {
-            await axios.post(baseUrl + '/addMember', { first_name: firstName, last_name: lastName, email: email, password: password }, { withCredentials: true })
+            await axios.post(baseUrl + '/addMember', { first_name: firstName, last_name: lastName, email: email }, { withCredentials: true })
             getMembers()
             onSuccess()
         } catch (err) {

@@ -9,7 +9,7 @@ export default function Loginpage() {
     const colors = useSelector(state => state.theme.colors)
     const orgname = useSelector(state => state.theme.organization.name)
     const inputStyle = { borderColor: colors.primary, color: colors.primary, fontSize: '15px', '&::placeholder': { color: colors.primary } }
-    const { login, logout } = useAuth()
+    const { login, logout, isError, clearError } = useAuth()
 
     const user = useSelector(state => state.user)
 
@@ -25,7 +25,9 @@ export default function Loginpage() {
     }
 
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
+        clearError()
+
         if (clearRef.current) {
             clearTimeout(clearRef.current)
         }
@@ -33,10 +35,19 @@ export default function Loginpage() {
             setFeedback('Username and Password are required')
             clearRef.current = setTimeout(() => setFeedback(''), 3000)
         } else {
-            login(username, password)
+            await login(username, password)
+            if (isError) {
+                setFeedback('Login Failed')
+                clearRef.current = setTimeout(() => setFeedback(''), 3000)
+            }
         }
     }
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleLogin()
+        }
+    }
 
     return (
         <>
@@ -55,11 +66,11 @@ export default function Loginpage() {
                                     <Flex gap='10px' width='100%' direction='column' mb='20px' pos='relative' >
                                         <FormControl>
                                             <FormLabel>Username</FormLabel>
-                                            <Input value={username} onChange={(e) => { setUsername(e.target.value) }} required placeholder='username...' sx={inputStyle} />
+                                            <Input onKeyDown={handleKeyPress} value={username} onChange={(e) => { setUsername(e.target.value) }} required placeholder='username...' sx={inputStyle} />
                                         </FormControl>
                                         <FormControl>
                                             <FormLabel>Password</FormLabel>
-                                            <Input value={password} onChange={(e) => { setPassword(e.target.value) }} type={hidePassword ? 'password' : 'text'} placeholder='password...' sx={inputStyle} />
+                                            <Input onKeyDown={handleKeyPress} value={password} onChange={(e) => { setPassword(e.target.value) }} type={hidePassword ? 'password' : 'text'} placeholder='password...' sx={inputStyle} />
                                         </FormControl>
                                         <Flex position='absolute' bottom='-40px' width='100%' justify='flex-end'>
                                             <Button _hover={{ backgroundColor: 'transparent' }} bg='transparent' color={colors.primary} onClick={() => setHidePassword(!hidePassword)}>{hidePassword ? 'show password' : 'hide password'}</Button>
@@ -67,7 +78,7 @@ export default function Loginpage() {
                                     </Flex>
                                     <Button _hover={{ opacity: '50%' }} onClick={handleLogin} color={colors.secondary} bg={colors.primary}>Log In</Button>
                                 </Flex>
-                                <Text as='b' color={feedback !== '' ? colors.red : 'transparent'}>"{feedback}"</Text>
+                                <Text textAlign='center' as='b' color={feedback !== '' ? colors.red : 'transparent'}>"{feedback}"</Text>
                             </Flex>
                         </Flex>
                     </Flex>

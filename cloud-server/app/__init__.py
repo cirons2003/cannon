@@ -1,7 +1,7 @@
 from flask import Flask 
 from dotenv import load_dotenv
 import os 
-from .extensions import db, jwt, socketio, migrate, login_manager
+from .extensions import db, jwt, socketio, migrate, login_manager, mail
 from .authentication import memberAuth_bp, adminAuth_bp, error_bp
 from flask_cors import CORS
 
@@ -29,6 +29,13 @@ def create_app():
         app.config['SESSION_COOKIE_SECURE'] = True
     else: 
         raise ValueError('Invalid configuration setting')
+    
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = 'carsonirons@gmail.com'
+    app.config['MAIL_PASSWORD'] = 'qtrh xrom qvil pnmy'
+    app.config['MAIL_DEFAULT_SENDER'] = ('Cannon Club', 'carsonirons@gmail.com')
 
     #initialize extensions
     db.init_app(app)
@@ -36,6 +43,7 @@ def create_app():
     migrate.init_app(app, db)
     jwt.init_app(app)
     login_manager.init_app(app)
+    mail.init_app(app)
 
     ##Integrate authorization endpoints 
     app.register_blueprint(memberAuth_bp, url_prefix = '/memberAuth')

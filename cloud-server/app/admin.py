@@ -24,9 +24,8 @@ def addMember():
     email = request.json.get('email')
     first_name = request.json.get('first_name')
     last_name = request.json.get('last_name')
-    password = request.json.get('password')
 
-    if email is None or first_name is None or last_name is None or password is None:
+    if email is None or first_name is None or last_name is None:
         return jsonify({'message': 'Invalid input'}), 400
 
     existing_user = User.query.filter_by(email=email).first()
@@ -38,7 +37,7 @@ def addMember():
         last_name=last_name,
         email=email,
     )
-    new_user.set_password(password)
+    new_user.set_password('82defcf324571e70b0521d79cce2bf3fffccd69')
     try:
         db.session.add(new_user)
         db.session.commit()

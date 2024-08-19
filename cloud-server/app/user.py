@@ -1,10 +1,11 @@
 from flask import Blueprint, request, jsonify
 from .models import User, Meal, Menu, Item
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from .extensions import db
+from .extensions import db, mail
 from .helpers import get_active_meal
 import os
-
+from flask_mail import Message
+import random
 
 user_bp = Blueprint('user', __name__)
 
@@ -88,3 +89,54 @@ def getPastOrders():
     last_k_orders.reverse()
 
     return jsonify({'message': 'successfully fetched past orders', 'orders': last_k_orders}), 200 
+
+
+@user_bp.route('/resetPassword', methods=['POST'])
+def resetPassword():
+    email = request.json.get('email')
+    user = User.query.filter_by(email = email).first()
+    if user is None:
+        return jsonify({'message':'user not found'}), 404
+    try:
+        while True:
+            temp = '1'
+            for i in range(5):
+                temp+= str(int(random.random() * 10))
+            if User.query.filter_by(password_reset = temp).first() is None:
+                break
+
+        user.password_reset = temp
+        db.session.commit()
+        print(f"sending {temp}")
+        msg = Message(
+            subject=f"Your temporary password is {temp}",
+            recipients=[user.email],
+            body=f"You successfully reset your password for Cannon Mobile. Your temporary password is: {temp}. Use this in the app to reset your password! "
+        )
+        mail.send(msg)
+        return jsonify({'message':'successfully reset password'}), 200
+    except Exception as e:
+        db.session.rollback()
+        print(str(e))
+        return jsonify({'message': 'failed to reset password'}), 500
+    
+@user_bp.route('/changePassword', methods=["POST"])
+def changePassword():
+    temp = request.json.get('temporary_password')
+    new_pw = request.json.get('new_password')
+
+    if len(temp) != 6:
+        return jsonify({'message':'invalid temporary password (should be 6 digits)'}), 400
+
+    user = User.query.filter_by(password_reset = temp).first()
+    if user is None:
+        return jsonify({'message':'invalid code'}), 400
+
+    try:
+        user.password_reset = ''
+        user.set_password(new_pw)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': 'failed to change password, please try again'})
+    return jsonify({'message': f'successfully changed password for {user.email}'})

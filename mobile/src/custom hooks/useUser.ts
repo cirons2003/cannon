@@ -14,6 +14,7 @@ const useUser = () => {
     const dispatch = useAppDispatch();
     const [error, setError] = useState<boolean>(false);
     const [confirmed, setConfirmed] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const { flash: flashError, cleanUp: cleanupError } = useFlash(setError);
     const { flash: flashConfirm, cleanUp: cleanupConfirm } = useFlash(setConfirmed);
 
@@ -44,7 +45,31 @@ const useUser = () => {
             flashError(3000)
         }
     }
-    return { changeDescription, error, confirmed };
+
+    const changePassword = async (temporary_password: string, new_password: string) => {
+        try {
+            const response = await axios.post(baseURL + '/changePassword', { temporary_password, new_password })
+            return true
+        } catch (err) {
+            console.error(err)
+            return false
+        }
+    }
+
+    const resetPassword = async (email: string) => {
+        setIsLoading(true)
+        try {
+            const response = await axios.post(baseURL + '/resetPassword', { email: email });
+            setIsLoading(false)
+            return true
+        } catch (err) {
+            setIsLoading(false)
+            console.log(err)
+            return false
+        }
+    }
+
+    return { changeDescription, error, confirmed, changePassword, resetPassword, isLoading };
 };
 
 export default useUser;

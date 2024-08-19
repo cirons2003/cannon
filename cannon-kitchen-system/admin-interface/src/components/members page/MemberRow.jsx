@@ -16,9 +16,9 @@ export default function MemberRow({ member, openChangePasswordModal, openDeleteM
                 <Text as='i' color={colors.primary} fontSize={20}>{member.email}</Text>
             </Flex>
             <Flex flex={1} justify='flex-end' pr={5} align='center' gap='20px'>
-                <Button onClick={openChangePasswordModal} bg={colors.primary}>
+                {/*<Button onClick={openChangePasswordModal} bg={colors.primary}>
                     <Text color={colors.secondary}>Change Password</Text>
-                </Button>
+                </Button>*/}
                 <IconButton size={12} onClick={openDeleteModal} _hover={{ backgroundColor: 'transparent', opacity: '70%' }} icon={<FontAwesomeIcon icon={faTrash} />} bg='transparent' color={colors.red} />
             </Flex>
         </Flex >
