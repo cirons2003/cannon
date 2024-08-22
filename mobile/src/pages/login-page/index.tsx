@@ -144,7 +144,7 @@ export default function LoginPage() {
                     </FormControl>}
                     <Text mt='sm' textAlign='center' fontSize='xs' color={errorFlashed ? `${(errorMessage !== 'Email sent, check your inbox' && errorMessage !== 'Success!') ? 'error' : 'green.800'}` : 'transparent'}>{errorMessage}</Text>
                     <Button onPress={() => { setResettingPassword(!resettingPassword); leaveCodeEntering() }} p={0}><Text color='green.700'>{resettingPassword ? 'Back to login' : 'Reset Password'}</Text></Button>
-                    <Button isLoading={isLoading} onPress={handleClick} mt='sm' mb='md' minWidth='50%' bg='primary'><Text fontFamily='primary' color='secondary' borderRadius='lg'>{resettingPassword ? 'Reset Password' : 'Sign In'}</Text></Button>
+                    <Button isLoading={isLoading} onPress={handleClick} mt='sm' mb='md' minWidth='50%' bg='primary'><Text fontFamily='primary' color='secondary' borderRadius='lg'>{resettingPassword ? 'Reset Password' : `${enterCode ? 'Change Password' : 'Sign In'}`}</Text></Button>
                 </VStack>
             </Center>
         </SafeAreaView >
