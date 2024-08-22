@@ -14,7 +14,8 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.carson123.cannonmobile"
+      "bundleIdentifier": "com.carson123.cannonmobile",
+      "buildNumber": "3"
     },
     "android": {
       "adaptiveIcon": {
