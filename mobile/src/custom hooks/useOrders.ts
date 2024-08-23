@@ -52,7 +52,7 @@ export const useOrders = () => {
         return Object.entries(groupedOrders).map<GroupedOrder>(([meal_name, orders]) => ({
             meal_name: meal_name,
             orders: orders,
-        }));
+        }))?.sort((a, b) => -1 * (a.orders[0].meal_date).localeCompare(b.orders[0].meal_date));
     }
 
     return { getPastOrders, isLoading }
