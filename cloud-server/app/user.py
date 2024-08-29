@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from .models import User, Meal, Menu, Item
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from .extensions import db, mail
-from .helpers import get_active_meal
+from .helpers import get_active_meal, get_meal_date_now
 import os
 from flask_mail import Message
 import random
@@ -75,18 +75,45 @@ def getPastOrders():
     user = User.query.get(get_jwt_identity())
     if (user is None): 
         return jsonify({'message':'user not found'}), 403
-    orders = [{
+
+    k = int(os.getenv('NUMBER_OF_PAST_ORDERS'))
+
+    order_query = user.orders.all()
+    last_k_orders = order_query[-k:]
+    orders_to_remove = order_query[:-k]
+
+    try:
+        active_meal = get_active_meal()
+        meal_date = get_meal_date_now()
+        
+        for o in orders_to_remove:
+            db.session.delete(o)
+
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': 'failed to remove stale orders'}), 500
+
+
+    try:
+        for o in last_k_orders:
+            if o.status == 'pending' and (o.meal_name != active_meal.name or str(o.meal_date) != str(meal_date)):
+                o.status = 'expired'
+        db.session.commit()
+    except Exception as e: 
+        db.session.rollback()
+        return jsonify({'message': 'failed to update order statuses'}), 500 
+                
+    last_k_orders.reverse()
+
+    last_k_orders = [{
         'order_id': o.order_id, 
         'item_name': o.item_name, 
         'selections': o.selections, 
         'meal_name': o.meal_name, 
         'status': o.status, 
         'meal_date': o.meal_date
-    } for o in user.orders]
-
-    k = int(os.getenv('NUMBER_OF_PAST_ORDERS'))
-    last_k_orders = orders[-k:]
-    last_k_orders.reverse()
+    } for o in last_k_orders]
 
     return jsonify({'message': 'successfully fetched past orders', 'orders': last_k_orders}), 200 
 
