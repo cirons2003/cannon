@@ -78,9 +78,8 @@ def getPastOrders():
 
     k = int(os.getenv('NUMBER_OF_PAST_ORDERS'))
 
-    order_query = user.orders.all()
-    last_k_orders = order_query[-k:]
-    orders_to_remove = order_query[:-k]
+    last_k_orders = user.orders[-k:]
+    orders_to_remove = user.orders[:-k]
 
     try:
         active_meal = get_active_meal()
