@@ -97,7 +97,7 @@ def getPastOrders():
 
     try:
         for o in last_k_orders:
-            if o.status == 'pending' and (o.meal_name != active_meal.name or str(o.meal_date) != str(meal_date)):
+            if o.status == 'pending' and (active_meal is None or o.meal_name != active_meal.name or str(o.meal_date) != str(meal_date)):
                 o.status = 'expired'
         db.session.commit()
     except Exception as e: 
