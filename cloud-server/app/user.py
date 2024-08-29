@@ -91,7 +91,8 @@ def getPastOrders():
         db.session.commit()
     except Exception as e:
         db.session.rollback()
-        return jsonify({'message': 'failed to remove stale orders'}), 500
+        print(f'failed to remove stale orders: {e}')
+        return jsonify({'message': f'failed to remove stale orders: {e}'}), 500
 
 
     try:
@@ -101,7 +102,8 @@ def getPastOrders():
         db.session.commit()
     except Exception as e: 
         db.session.rollback()
-        return jsonify({'message': 'failed to update order statuses'}), 500 
+        print(f'failed to update order statuses: {e}')
+        return jsonify({'message': f'failed to update order statuses: {e}'}), 500 
                 
     last_k_orders.reverse()
 
