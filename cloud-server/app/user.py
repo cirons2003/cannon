@@ -168,6 +168,6 @@ def changePassword():
         print(f'successfully changed password for {user.email}')
     except Exception as e:
         db.session.rollback()
-        print('failed to change password, please try again')
+        print('failed to change password', e)
         return jsonify({'message': 'failed to change password, please try again'})
     return jsonify({'message': f'successfully changed password for {user.email}'})
