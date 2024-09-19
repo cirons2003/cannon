@@ -10,7 +10,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(255), nullable = False)
     description = db.Column(db.String(500))
     suspended = db.Column(db.Boolean, nullable = False, server_default = '0')  
-    orders = db.relationship('Order', back_populates='user', lazy = True, cascade='all, delete-orphan')
+    orders = db.relationship('Order', back_populates='user', lazy = True, cascade='all, delete-orphan', order_by='Order.order_id')
     password_reset = db.Column(db.String(6), unique = True)
 
 
