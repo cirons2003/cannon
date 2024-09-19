@@ -162,7 +162,7 @@ def changePassword():
     print(user.email)
 
     try:
-        user.password_reset = ''
+        user.password_reset = None
         user.set_password(new_pw)
         db.session.commit()
         print(f'successfully changed password for {user.email}')
