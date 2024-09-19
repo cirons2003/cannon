@@ -159,11 +159,13 @@ def changePassword():
     user = User.query.filter_by(password_reset = temp).first()
     if user is None:
         return jsonify({'message':'invalid code'}), 400
+    print(user.email)
 
     try:
         user.password_reset = ''
         user.set_password(new_pw)
         db.session.commit()
+        print(f'successfully changed password for {user.email}')
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': 'failed to change password, please try again'})
