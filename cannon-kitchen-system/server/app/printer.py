@@ -1,6 +1,7 @@
 import win32print
 import win32ui
 from win32.lib import win32con
+from datetime import datetime 
 
 width = 550
 def print_hello_world():
@@ -60,6 +61,8 @@ class OrderReceiptGenerator():
 
         self.appendUserNameSection(order['user_name'])
 
+        self.appendOrderTimeSection()
+
         self.appendHR()
 
         self.appendOrderNameSection(order['item_name'])
@@ -82,6 +85,11 @@ class OrderReceiptGenerator():
         self.fontLarge()
 
         self.append_centered_text(name)
+
+    def appendOrderTimeSection(self):
+        current_time = datetime.now().strftime("%I:%M %p")
+        self.fontNormal()
+        self.append_centered_text(current_time)
 
     def appendOrderNameSection(self, item_name):
         self.fontBoldLarge()
