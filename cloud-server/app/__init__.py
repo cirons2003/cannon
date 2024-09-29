@@ -5,16 +5,15 @@ from .extensions import db, jwt, socketio, migrate, login_manager, mail
 from .authentication import memberAuth_bp, adminAuth_bp, error_bp
 from flask_cors import CORS
 
-configuration = 'production' ##production or development
-
 def create_app():
 
     #Configure app 
     app = Flask(__name__)
     CORS(app, supports_credentials = True)
 
-    if configuration == 'development':
-        load_dotenv()
+    load_dotenv()
+
+    configuration = os.getenv('CONFIGURATION')
 
     app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY') 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
