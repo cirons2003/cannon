@@ -49,8 +49,8 @@ class OrderReceiptGenerator():
         self.pixelWidth = 550
         self.section_spacing = 50
         self.line_spacing = 15
-        self.top_margin = 30
-        self.bottom_margin = 10
+        self.top_margin = 75
+        self.bottom_margin = 50
         self.side_margin = 0
 
     def generateReceipt(self, order):
