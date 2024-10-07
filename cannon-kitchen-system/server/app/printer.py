@@ -47,10 +47,11 @@ class OrderReceiptGenerator():
         self.current_pixel = 0
 
         self.pixelWidth = 550
+        self.minHeight = 720
         self.section_spacing = 50
         self.line_spacing = 15
-        self.top_margin = 75
-        self.bottom_margin = 50
+        self.top_margin = 50
+        self.bottom_margin = 35
         self.side_margin = 0
 
     def generateReceipt(self, order):
@@ -73,8 +74,8 @@ class OrderReceiptGenerator():
         self.appendSpacing(2 * self.line_spacing)
 
         self.appendSpecialRequestSection(order['description'])
-        self.appendSpacing(self.bottom_margin)
 
+        self.appendSpacing(max(self.bottom_margin, self.minHeight - self.current_pixel))
         self.device_context.TextOut(0, self.current_pixel, ".")
         
 
