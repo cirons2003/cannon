@@ -47,7 +47,7 @@ class OrderReceiptGenerator():
         self.current_pixel = 0
 
         self.pixelWidth = 550
-        self.minHeight = 720
+        self.minHeight = 600
         self.section_spacing = 50
         self.line_spacing = 15
         self.top_margin = 50
