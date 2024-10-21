@@ -1,38 +1,36 @@
 {
-  "expo": {
-    "name": "Cannon Meals",
-    "slug": "cannon-mobile",
-    "entryPoint": "./AppEntry.js",
-    "version": "1.0.2",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": false,
-      "bundleIdentifier": "com.carson123.cannonmobile",
-      "buildNumber": "4"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-font"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "c18d9556-b522-46d4-af9c-ffefe871ee5b"
-      }
+    "expo": {
+        "name": "Cannon Meals",
+        "slug": "cannon-mobile",
+        "entryPoint": "./AppEntry.js",
+        "version": "1.0.5",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "ios": {
+            "supportsTablet": false,
+            "bundleIdentifier": "com.carson123.cannonmobile",
+            "buildNumber": "5"
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            }
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "plugins": ["expo-font"],
+        "extra": {
+            "eas": {
+                "projectId": "c18d9556-b522-46d4-af9c-ffefe871ee5b"
+            }
+        }
     }
-  }
 }
