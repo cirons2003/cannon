@@ -15,18 +15,18 @@ def setup_socket_events(app):
         ##IMPORTANT: handles an incoming order 
         @sio.event
         def new_order(data):
-            status_code, message = handle_order(data, app) #0=fail, 1=print, 2=stored
+            status_code, message = handle_order(data, app) #0=fail, 1=print
             print(message)
             
             if status_code == 0:
                 return 
             
-            if status_code == 1: 
+            elif status_code == 1: 
                 new_status = 'placed'
+                sio.emit('update_order_status', {'order_id': data['order_id'], 'new_status': new_status})
             else: 
-                new_status = 'placed'
-               
-            sio.emit('update_order_status', {'order_id': data['order_id'], 'new_status': new_status})
+                print('invalid print status')
+                return
             
 
         @sio.event
