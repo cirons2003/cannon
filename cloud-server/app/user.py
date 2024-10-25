@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from .models import User, Meal, Menu, Item
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from .extensions import db, mail
-from .helpers import get_active_meal, get_meal_date_now
+from .helpers import get_active_meal, get_meal_date_now, relay_order
 import os
 from flask_mail import Message
 import random
@@ -97,9 +97,9 @@ def getPastOrders():
 
     try:
         for o in last_k_orders:
-            if o.status == 'pending' and (active_meal is None or o.meal_name != active_meal.name or str(o.meal_date) != str(meal_date)):
-                o.status = 'expired'
-        db.session.commit()
+            if o.status == 'pending':
+                relay_order(o)
+
     except Exception as e: 
         db.session.rollback()
         print(f'failed to update order statuses: {e}')

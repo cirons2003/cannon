@@ -22,7 +22,7 @@ def change_order_status(data):
 def relay_pending_orders():
     if 'authorized_room' not in rooms():
         return 
-    orders = Order.query.filter(Order.status == 'pending').all()
+    orders = Order.query.filter(Order.status == 'pending').all() # consider indexing on status if we scale assumptions
     for o in orders:
         relay_order(o)
         
