@@ -13,7 +13,7 @@ def change_order_status(data):
         try:
             order.status = data['new_status']
             db.session.commit()
-            print(f'order {data["order_id"]} was {data["new_status"]}')
+            print(f'order {data["order_id"]} was changed to {data["new_status"]}')
         except Exception as e:
             db.session.rollback()
             print(f'the following error occurred: {e}')
@@ -24,6 +24,7 @@ def relay_pending_orders():
         return 
     orders = Order.query.filter(Order.status == 'pending').all() # consider indexing on status if we scale assumptions
     for o in orders:
+        print(f"order {o.order_id} relayed from relay_pending_orders")
         relay_order(o)
         
 

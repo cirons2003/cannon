@@ -87,6 +87,7 @@ def place_order():
     
     # Emit order to the print server
     print(f'order {order.order_id} was received')
+    print(f"order {o.order_id} relayed from place_order")
     relay_order(order)
 
     return jsonify({'message': 'order successfully placed', 'order_credits_left': order_credits_left}), 200

@@ -98,6 +98,7 @@ def getPastOrders():
     try:
         for o in last_k_orders:
             if o.status == 'pending':
+                print(f"order {o.order_id} relayed from getPastOrders")
                 relay_order(o)
 
     except Exception as e: 
