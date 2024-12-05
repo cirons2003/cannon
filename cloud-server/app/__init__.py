@@ -4,6 +4,7 @@ import os
 from .extensions import db, jwt, socketio, migrate, login_manager, mail
 from .authentication import memberAuth_bp, adminAuth_bp, error_bp
 from flask_cors import CORS
+import logging
 
 def create_app():
 
@@ -26,6 +27,9 @@ def create_app():
         app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI_PRODUCTION')
         app.config['SESSION_COOKIE_SAMESITE'] = 'None'
         app.config['SESSION_COOKIE_SECURE'] = True
+        gunicorn_logger = logging.getLogger("gunicorn.error")
+        app.logger.handlers = gunicorn_logger.handlers
+        app.logger.setLevel(gunicorn_logger.level)
     else: 
         raise ValueError('Invalid configuration setting')
     
