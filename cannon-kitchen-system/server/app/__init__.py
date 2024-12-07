@@ -1,7 +1,6 @@
 from flask import Flask
 from dotenv import load_dotenv
 import os
-
 #from .extensions import migrate, db   
 
 def create_app():
@@ -17,7 +16,6 @@ def create_app():
     ##configure extensions
     #db.init_app(app)
     #migrate.init_app(app, db)
-    
     
     ##integrate socket functionality 
     from .socket import setup_socket_events

@@ -1,4 +1,4 @@
-from .extensions import sio
+from .extensions import sio, ordercache
 import threading
 from .helpers import handle_order
 
@@ -15,6 +15,10 @@ def setup_socket_events(app):
         ##IMPORTANT: handles an incoming order 
         @sio.event
         def new_order(data):
+            # avoid double orders 
+            if (ordercache.containsOrder(data['order_id'])):
+                return 
+
             status_code, message = handle_order(data, app) #0=fail, 1=print
             print(message)
             

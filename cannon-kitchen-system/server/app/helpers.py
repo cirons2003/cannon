@@ -1,4 +1,4 @@
-from .extensions import printer, ordercache #, db
+from .extensions import printer, ordercache
 #from .models import Order
 
 
