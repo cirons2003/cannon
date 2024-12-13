@@ -6,12 +6,14 @@ class OrderCache():
     def addOrder(self, orderId):
         if (orderId in self.orderIds):
             return 
+        print(f"Order {orderId} added to cache")
         self.orderIds.add(orderId)
         self.numOrders += 1
     
     def removeOrder(self, orderId):
         if (orderId not in self.orderIds):
             return
+        print(f"Order {orderId} removed from cache")
         self.orderIds.remove(orderId)
         self.numOrders -= 1
 

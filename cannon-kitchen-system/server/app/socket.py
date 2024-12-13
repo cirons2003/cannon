@@ -17,6 +17,7 @@ def setup_socket_events(app):
         def new_order(data):
             # avoid double orders 
             if (ordercache.containsOrder(data['order_id'])):
+                print(f'Prevented duplicate order for order {data['order_id']}!')
                 return 
 
             status_code, message = handle_order(data, app) #0=fail, 1=print
@@ -32,6 +33,10 @@ def setup_socket_events(app):
                 print('invalid print status')
                 return
             
+        @sio.event
+        def status_updated(data): 
+            order_id = data['order_id']
+            ordercache.removeOrder(order_id)
 
         @sio.event
         def disconnect():

@@ -14,6 +14,7 @@ def change_order_status(data):
             order.status = data['new_status']
             db.session.commit()
             print(f'order {data["order_id"]} was changed to {data["new_status"]}')
+            socketio.emit('status_updated', {'order_id': data['order_id']}, to = 'authorized_room')
         except Exception as e:
             db.session.rollback()
             print(f'the following error occurred: {e}')
