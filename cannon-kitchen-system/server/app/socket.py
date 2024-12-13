@@ -19,7 +19,9 @@ def setup_socket_events(app):
             if (ordercache.containsOrder(data['order_id'])):
                 print(f'Prevented duplicate order for order {data['order_id']}!')
                 return 
-
+            
+            ordercache.addOrder(data['order_id'])
+            
             status_code, message = handle_order(data, app) #0=fail, 1=print
             print(message)
             

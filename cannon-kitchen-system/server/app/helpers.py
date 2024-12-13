@@ -18,7 +18,6 @@ def handle_order(order_data, app):
                       'user_name':order_data['user_name'], 'description':order_data['description']}
 
         try: 
-            ordercache.removeOrder(order_data['order_id'])
             printer.print_orders([order])
         except Exception as e:  
             print(f"Printer failed to print... check printer connection: {e}")
