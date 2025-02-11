@@ -1,5 +1,7 @@
 # Mobile Meal Ordering System for Cannon Dial Elm Club
 
+https://docs.google.com/presentation/d/1k0AdV6zS1DeCXC4brSMSswyTehNYpoM3uue7ctlirrc/edit?usp=sharing
+
 ## Background
 - I embarked on this project in May 2024, with the aim to deliver an end to end mobile meal ordering system for Cannon Dial Elm Club at Princeton University.
 - Cannon Dial Elm Club provides 3 meals per day to 200 daily members, and would traditionally field orders via ipads located inside the club itself.
