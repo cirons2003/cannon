@@ -22,6 +22,9 @@ System Requirements:
   4) Intuitive admin interface, supporting easy maintenance and modification of menus, meal times, and members
   5) Compatibility with TSP100iiiLAN series thermal printer, with custom ticket format
 
+## System Architecture 
+![System Architecture](System\sArchitecture.png)
+
 ## Technologies Used 
 Mobile and Admin Interface:
 - React/React Native
