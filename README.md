@@ -23,7 +23,7 @@ System Requirements:
   5) Compatibility with TSP100iiiLAN series thermal printer, with custom ticket format
 
 ## System Architecture 
-![System Architecture](System\sArchitecture.png)
+![System Architecture.png](https://github.com/cirons2003/cannon/blob/master/System%20Architecture.png)
 
 ## Technologies Used 
 Mobile and Admin Interface:
