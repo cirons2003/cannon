@@ -7,7 +7,7 @@ from flask_mail import Mail
 
 db = SQLAlchemy()
 jwt = JWTManager()
-socketio = SocketIO()
+socketio = SocketIO(cors_allowed_origins="*")
 migrate = Migrate()
 login_manager = LoginManager()
 mail = Mail()
