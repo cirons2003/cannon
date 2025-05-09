@@ -14,7 +14,7 @@ python -m venv myEnv
 .\myEnv\Scripts\Activate
 
 # Install Python dependencies
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 # Run database migrations
 #flask db upgrade
