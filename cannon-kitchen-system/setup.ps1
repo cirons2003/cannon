@@ -5,7 +5,7 @@
 ##########################################
 
 # Navigate to the client directory and install npm dependencies
-cd .\client
+cd .\cannon-kitchen-system
 npm install
 
 # Navigate to the server directory and activate the virtual environment
