@@ -10,6 +10,7 @@ npm install
 
 # Navigate to the server directory and activate the virtual environment
 cd ..\server
+python -m venv myEnv
 .\myEnv\Scripts\Activate
 
 # Install Python dependencies
