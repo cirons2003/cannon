@@ -6,7 +6,7 @@ https://docs.google.com/presentation/d/1k0AdV6zS1DeCXC4brSMSswyTehNYpoM3uue7ctli
 - I embarked on this project in May 2024, with the aim to deliver an end to end mobile meal ordering system for Cannon Dial Elm Club at Princeton University.
 - Cannon Dial Elm Club provides 3 meals per day to 200 daily members, and would traditionally field orders via ipads located inside the club itself.
 - This system works great in most cases, but lacked the convenience boasted by mobile ordering. In addition, athletes often found it difficult to place orders in time after rushing from practice or meetings.
-- With the benefits a mobile ordering system would bring to the club evident, I volunteered to make it a reality.
+- With the benefits a mobile ordering system would bring to the club evident, I couldn't wait to make it a reality!
 
 ## Project Requirements
 This system include 4 primary components:
