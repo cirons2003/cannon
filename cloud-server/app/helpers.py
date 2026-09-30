@@ -71,8 +71,16 @@ def get_active_meal():
         break
     return current_meal
 
+# members exempt from ORDERS_PER_MEAL; more can be added via the UNLIMITED_ORDER_EMAILS env var (comma separated)
+UNLIMITED_ORDER_EMAILS = {'cb6256@princeton.edu'}
+
+def get_unlimited_order_emails():
+    return UNLIMITED_ORDER_EMAILS | {e.strip().lower() for e in os.getenv('UNLIMITED_ORDER_EMAILS', '').split(',') if e.strip()}
+
 def get_order_credits_left(user, active_meal):
     count = int(os.getenv('ORDERS_PER_MEAL'))
+    if user.email.lower() in get_unlimited_order_emails():
+        return count
     meal_date = get_meal_date_now()
     
     for order in user.orders: 
