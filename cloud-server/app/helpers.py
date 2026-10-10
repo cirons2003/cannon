@@ -29,18 +29,24 @@ def relay_pending_orders():
         relay_order(o)
         
 
-def relay_order(o: Order): 
+##marks an order expired if its meal is no longer active, returns True if expired
+def expire_if_stale(o: Order):
     active_meal = get_active_meal()
     meal_date = get_meal_date_now()
-    
+
     if (active_meal is None or o.meal_name != active_meal.name or str(o.meal_date) != str(meal_date)):
-        try: 
+        try:
             o.status = 'expired'
             db.session.commit()
-        except Exception as e: 
+        except Exception as e:
             db.session.rollback()
             print(f'failed to change status for order {o.order_id}', e)
-    else:
+        return True
+    return False
+
+
+def relay_order(o: Order):
+    if not expire_if_stale(o):
         socketio.emit('new_order', {
             'order_id': o.order_id,
             'item_name': o.item_name,

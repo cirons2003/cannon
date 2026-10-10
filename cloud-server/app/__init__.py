@@ -70,6 +70,10 @@ def create_app():
     from .admin import admin_bp
     app.register_blueprint(admin_bp, url_prefix='/admin')
 
+    ##register printer polling endpoint
+    from .cloudprnt import cloudprnt_bp
+    app.register_blueprint(cloudprnt_bp, url_prefix='/cloudprnt')
+
     #return app object 
     return app
     
