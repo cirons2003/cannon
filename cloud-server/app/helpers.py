@@ -73,8 +73,9 @@ def get_active_meal():
             continue
         if (now.hour > end_hour or (now.hour == end_hour and now.minute > end_min)):
             continue
-        current_meal = m
-        break
+        ##if meals overlap, the one that started most recently wins
+        if current_meal is None or m.start_time > current_meal.start_time:
+            current_meal = m
     return current_meal
 
 # members exempt from ORDERS_PER_MEAL; more can be added via the UNLIMITED_ORDER_EMAILS env var (comma separated)
