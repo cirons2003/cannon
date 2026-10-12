@@ -45,8 +45,8 @@ def getMenuItems():
     eh, em = current_meal.end_time.split(':')
     sh = int(sh)
     eh = int(eh)
-    sAmPm = 'AM' if sh % 12 == 0 else 'PM'
-    eAmPm = 'AM' if eh % 12 == 0 else 'PM'
+    sAmPm = 'AM' if sh < 12 else 'PM'
+    eAmPm = 'AM' if eh < 12 else 'PM'
     sh = int(sh % 12) if sh % 12 != 0 else 12
     eh = int(eh % 12) if eh % 12 != 0 else 12
     duration_string = f"{sh}:{sm}{sAmPm} - {eh}:{em}{eAmPm}"
